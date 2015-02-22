@@ -13,12 +13,12 @@ public:
   /**
    * Constructor for the light intensity sensor
    */
-  TEMPT6000(int temt6000pin);
+  TEMT6000(int temt6000pin);
 
   /**
    * Asking light sensor for intensity 0 to 1023
    */
-  uint query();
+  int query();
 
 private:
   int temt6000pin_;
