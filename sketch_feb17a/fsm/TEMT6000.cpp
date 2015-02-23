@@ -4,10 +4,7 @@
 #include "Arduino.h"
 #include "TEMT6000.h"
 
-TEMT6000::TEMT6000(int temt6000pin) : temt6000pin_(temt6000pin)
-{
-  Serial.begin (9600); // I hope we can just set this as many times as we want
-}
+TEMT6000::TEMT6000(int temt6000pin) : temt6000pin_(temt6000pin){}
 
 int TEMT6000::query()
 {

@@ -72,11 +72,12 @@ State GoHome = State(goHome);
 State Chill = State(chill);
 
 FSM snr = FSM(Start); // search and rescue state machine
+UltrasonicSensor s1 = UltrasonicSensor(12,11);
 
 void setup()
 {
+  Serial.begin (9600);
   // We setup all our sensors up in this bitch.
-  //UltrasonicSensor s1 = UltrasonicSensor(1,2);
 }
 
 void loop()
