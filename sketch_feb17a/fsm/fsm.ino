@@ -1,6 +1,7 @@
 #include "FiniteStateMachine.h"
 #include "TEMT6000.h"
 #include "UltrasonicSensor.h"
+#include "PinDefinitions.h"
 
 
 void start()
@@ -72,7 +73,12 @@ State GoHome = State(goHome);
 State Chill = State(chill);
 
 FSM snr = FSM(Start); // search and rescue state machine
-UltrasonicSensor s1 = UltrasonicSensor(12,11);
+UltrasonicSensor us1 = UltrasonicSensor(SONAR_TRIG1,SONAR_ECHO1);
+UltrasonicSensor us2 = UltrasonicSensor(SONAR_TRIG2,SONAR_ECHO2);
+UltrasonicSensor us3 = UltrasonicSensor(SONAR_TRIG3,SONAR_ECHO3);
+
+TEMT6000 reciever_left = TEMT6000(RECEIVER_LEFT);
+TEMT6000 reciever_right = TEMT6000(RECEIVER_RIGHT);
 
 void setup()
 {
@@ -89,5 +95,6 @@ void loop()
   * then we update the state machine so it properly transitions
   * snr.update();
   */
+  //Serial.println(s2.query());
 }
 
