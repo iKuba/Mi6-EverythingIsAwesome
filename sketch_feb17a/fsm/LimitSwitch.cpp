@@ -12,6 +12,5 @@ LimitSwitch::LimitSwitch(int inputPin) :
 
 bool LimitSwitch::query()
 {
-  int isClicked = digitalRead(input_pin_);
-  return isClicked;
+  return digitalRead(input_pin_);
 }
