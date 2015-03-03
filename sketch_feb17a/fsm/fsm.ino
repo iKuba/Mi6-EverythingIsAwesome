@@ -2,6 +2,8 @@
 #include "TEMT6000.h"
 #include "UltrasonicSensor.h"
 #include "PinDefinitions.h"
+#include "NineDOF.h"
+#include "Wire.h"
 
 
 void start()
@@ -35,7 +37,7 @@ void goDownRamp()
 }
 
 void search()
-{
+{ 
   // search for the lego man
 }
 
@@ -80,9 +82,15 @@ UltrasonicSensor us3 = UltrasonicSensor(SONAR_TRIG3,SONAR_ECHO3);
 TEMT6000 reciever_left = TEMT6000(RECEIVER_LEFT);
 TEMT6000 reciever_right = TEMT6000(RECEIVER_RIGHT);
 
+
+NineDOF ndof = NineDOF();
+
 void setup()
 {
   Serial.begin (9600);
+  Wire.begin();
+  ndof.setup();
+
   // We setup all our sensors up in this bitch.
 }
 
@@ -95,6 +103,9 @@ void loop()
   * then we update the state machine so it properly transitions
   * snr.update();
   */
+  //Serial.println("AHI");
   //Serial.println(s2.query());
+  ndof.refresh();
+  Serial.println(ndof.acel_.x);
 }
 
