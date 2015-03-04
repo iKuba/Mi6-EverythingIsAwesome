@@ -13,6 +13,9 @@
 #define MOTOR_LEFT_DIR 55
 #define MOTOR_RIGHT_DIR 56
 
+#define MOTOR_LEFT_ENABLE 2
+#define MOTOR_RIGHT_ENABLE 3
+
 // limit switch input
 #define LIMIT_SWITCH_1 52
 #define LIMIT_SWITCH_2 53

@@ -5,6 +5,7 @@
 #include "PinDefinitions.h"
 #include "NineDOF.h"
 #include "Wire.h"
+#include "Motor.h"
 
 
 void start()
@@ -84,19 +85,31 @@ LimitSwitch ls1 = LimitSwitch(LIMIT_SWITCH_1);
 LimitSwitch ls2 = LimitSwitch(LIMIT_SWITCH_2);
 LimitSwitch ls3 = LimitSwitch(LIMIT_SWITCH_3);
 
+LimitSwitch testSwitch = LimitSwitch(42);
+
 TEMT6000 reciever_left = TEMT6000(RECEIVER_LEFT);
 TEMT6000 reciever_right = TEMT6000(RECEIVER_RIGHT);
 
 
 NineDOF ndof = NineDOF();
+Motor mLeft = Motor(3,4,2);
+Motor mRight = Motor(5,6,7);
+
+bool runMotors = false;
 
 void setup()
 {
   Serial.begin (9600);
   Wire.begin();
   ndof.setup();
+  attachInterrupt(4, thing, FALLING);
 
   // We setup all our sensors up in this bitch.
+}
+
+void thing()
+{
+  runMotors = !runMotors;
 }
 
 void loop()
@@ -108,6 +121,13 @@ void loop()
   * then we update the state machine so it properly transitions
   * snr.update();
   */
+
+  Serial.println(runMotors);
+  if (runMotors)
+  {
+    mLeft.setVelocity(255, 1);
+    mRight.setVelocity(255, 1);
+  }
   //Serial.println(s2.query());
 }
 
