@@ -5,6 +5,8 @@
 #include "PinDefinitions.h"
 #include "NineDOF.h"
 #include "Wire.h"
+#include "INS.h"
+#include <Time.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
