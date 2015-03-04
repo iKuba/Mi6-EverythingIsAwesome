@@ -62,6 +62,10 @@ void chill()
   // chill at base
 }
 
+void doCalculations()
+{
+  
+}
 
 State Start = State(start);
 State Calibrate = State(calibrate);
@@ -74,6 +78,7 @@ State GoToLegoMan = State(goToLegoMan);
 State PickUp = State(pickUp);
 State GoHome = State(goHome);
 State Chill = State(chill);
+State Calculate = State(doCalculations);
 
 FSM snr = FSM(Start); // search and rescue state machine
 UltrasonicSensor us1 = UltrasonicSensor(SONAR_TRIG1,SONAR_ECHO1);
