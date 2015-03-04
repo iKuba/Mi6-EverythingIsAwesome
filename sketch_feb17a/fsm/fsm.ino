@@ -64,11 +64,7 @@ void chill()
   // chill at base
 }
 
-void doCalculations()
-{
-
-}
-
+// Begin states
 State Start = State(start);
 State Calibrate = State(calibrate);
 State GoToRamp = State(goToRamp);
@@ -80,9 +76,11 @@ State GoToLegoMan = State(goToLegoMan);
 State PickUp = State(pickUp);
 State GoHome = State(goHome);
 State Chill = State(chill);
-State Calculate = State(doCalculations);
 
 FSM snr = FSM(Start); // search and rescue state machine
+// End states
+
+// Begin Sensors
 UltrasonicSensor us1 = UltrasonicSensor(SONAR_TRIG1,SONAR_ECHO1);
 UltrasonicSensor us2 = UltrasonicSensor(SONAR_TRIG2,SONAR_ECHO2);
 UltrasonicSensor us3 = UltrasonicSensor(SONAR_TRIG3,SONAR_ECHO3);
@@ -94,11 +92,20 @@ LimitSwitch ls3 = LimitSwitch(LIMIT_SWITCH_3);
 TEMT6000 reciever_left = TEMT6000(RECEIVER_LEFT);
 TEMT6000 reciever_right = TEMT6000(RECEIVER_RIGHT);
 
-
 NineDOF ndof = NineDOF();
 
-// This variable is used to transition into the calculation state
+// End Sensors
+
+// Begin calculations
+
 bool calculateNav = false;
+
+void doCalculations()
+{
+  calculateNav = false;
+}
+
+// End Calculations
 
 void setup()
 {
@@ -128,7 +135,7 @@ void setup()
 
 ISR(TIMER1_COMPA_vect)
 {
-    calculateNav = !calculateNav;
+    calculateNav = true;
 }
 
 void loop()
@@ -141,5 +148,9 @@ void loop()
   * snr.update();
   */
   //Serial.println(s2.query());
+  if(calculateNav)
+  {
+    doCalculations();
+  }
 }
 
