@@ -130,8 +130,16 @@ void setup()
   // enable global interrupts:
   sei();
 
+  attachInterrupt(2, killSwitch, CHANGE);
+
   // We setup all our sensors up in this bitch.
 }
+
+void killSwitch()
+{
+  
+}
+
 
 ISR(TIMER1_COMPA_vect)
 {
