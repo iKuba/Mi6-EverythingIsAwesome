@@ -1,12 +1,14 @@
+#include "Servo.h"
 #include "FiniteStateMachine.h"
 #include "TEMT6000.h"
 #include "UltrasonicSensor.h"
 #include "LimitSwitch.h"
 #include "PinDefinitions.h"
 #include "NineDOF.h"
-#include "Wire.h"
-#include <avr/io.h>
-#include <avr/interrupt.h>
+//#include "Wire.h"
+// #include <avr/io.h>
+// #include <avr/interrupt.h>
+#include "Motor.h"
 
 
 void start()
@@ -92,9 +94,17 @@ LimitSwitch ls3 = LimitSwitch(LIMIT_SWITCH_3);
 TEMT6000 reciever_left = TEMT6000(RECEIVER_LEFT);
 TEMT6000 reciever_right = TEMT6000(RECEIVER_RIGHT);
 
-NineDOF ndof = NineDOF();
+//NineDOF ndof = NineDOF();
 
 // End Sensors
+
+Servo prop; 
+
+Motor mLeft = Motor(3,4,2);
+Motor mRight = Motor(5,6,7);
+
+bool runMotors = true;
+int value = 1000;
 
 // Begin calculations
 
@@ -110,41 +120,50 @@ void doCalculations()
 void setup()
 {
   Serial.begin (9600);
-  Wire.begin();
-  ndof.setup();
+  //Wire.begin();
+  //ndof.setup();
 
-  // initialize Timer1
-  cli();          // disable global interrupts
-  TCCR1A = 0;     // set entire TCCR1A register to 0
-  TCCR1B = 0;     // same for TCCR1B
+  // // initialize Timer1
+  // cli();          // disable global interrupts
+  // TCCR1A = 0;     // set entire TCCR1A register to 0
+  // TCCR1B = 0;     // same for TCCR1B
 
-  // set compare match register to desired timer count:
-  OCR1A = 15624;
-  // turn on CTC mode:
-  TCCR1B |= (1 << WGM12);
-  // Set CS10 and CS12 bits for 1024 prescaler:
-  TCCR1B |= (1 << CS10);
-  TCCR1B |= (1 << CS12);
-  // enable timer compare interrupt:
-  TIMSK1 |= (1 << OCIE1A);
-  // enable global interrupts:
-  sei();
+  // // set compare match register to desired timer count:
+  // OCR1A = 15624;
+  // // turn on CTC mode:
+  // TCCR1B |= (1 << WGM12);
+  // // Set CS10 and CS12 bits for 1024 prescaler:
+  // TCCR1B |= (1 << CS10);
+  // TCCR1B |= (1 << CS12);
+  // // enable timer compare interrupt:
+  // TIMSK1 |= (1 << OCIE1A);
+  // // enable global interrupts:
+  // sei();
 
   attachInterrupt(2, killSwitch, CHANGE);
+  attachInterrupt(3, increase, FALLING);
 
   // We setup all our sensors up in this bitch.
 }
 
 void killSwitch()
 {
-  
+  runMotors = false;
+  value = 1000;
 }
 
-
-ISR(TIMER1_COMPA_vect)
+void increase()
 {
-    calculateNav = true;
+  value+=100;
+  runMotors = true;
 }
+
+
+// ISR(TIMER1_COMPA_vect)
+// {
+//     calculateNav = true;
+//     value = 1000;
+// }
 
 void loop()
 {
@@ -156,9 +175,16 @@ void loop()
   * snr.update();
   */
   //Serial.println(s2.query());
-  if(calculateNav)
+  prop.writeMicroseconds(value);
+ 
+  if(Serial.available()) 
+    value = Serial.parseInt();    // Parse an Integer from Serial
+
+  if (runMotors)
   {
-    doCalculations();
+    mLeft.setVelocity(100, 1);
+    mRight.setVelocity(100, 1);
   }
+
 }
 
