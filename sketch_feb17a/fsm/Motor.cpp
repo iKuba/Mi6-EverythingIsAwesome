@@ -13,39 +13,31 @@ Motor::Motor(int forwardPin, int reversePin, int enablePin) :
   pinMode(reverse_pin_, OUTPUT);
   pinMode(enable_pin_, OUTPUT);
  
-  digitalWrite(enable_pin_, HIGH);
+  //digitalWrite(enable_pin_, HIGH);
 }
 
-Motor::Motor(int brushmotorPin, int brushSpeed) : 
-                                   brushmotor_pin_(brushmotorPin), 
-                                   brushSpeed_pin_(brushSpeed)
+Motor::Motor(int enablePin) : 
+                                   enable_pin_(enablePin)
 {
-  pinMode(brushmotor_pin_, OUTPUT);
-  pinMode(brushSpeed_pin_, OUTPUT);
+  pinMode(enable_pin_, OUTPUT);
  
-  digitalWrite(enable_pin_, HIGH);
+  //digitalWrite(enable_pin_, HIGH);
 }
 
 void Motor::setVelocity(unsigned int speed, bool direction, bool brushFlag)
-{
-  if(brushFlag)
-  {
-    analogWrite(brushSpeed_pin_, speed);
-  }
-  else
-  {  
-   analogWrite(enable_pin_, speed);
-   
-   if(direction)
-   {
-   	  digitalWrite(forward_pin_, HIGH);
-   	  digitalWrite(reverse_pin_, LOW);
-   }
-   else
-   {
-   	  digitalWrite(forward_pin_, LOW);
-   	  digitalWrite(reverse_pin_, HIGH);
-   }
-  }
-
+{ 
+  analogWrite(enable_pin_, speed);
+  if(!brushFlag)
+  { 
+    if(direction)
+    {
+      digitalWrite(forward_pin_, HIGH);
+      digitalWrite(reverse_pin_, LOW);
+    }
+    else
+    {
+      digitalWrite(forward_pin_, LOW);
+      digitalWrite(reverse_pin_, HIGH);
+    }
+  } 
 }
