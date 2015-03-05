@@ -37,3 +37,5 @@
 
 #define RECEIVER_LEFT 59
 #define RECEIVER_RIGHT 60
+
+#define KILL_SWITCH 21
