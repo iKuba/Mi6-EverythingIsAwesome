@@ -16,6 +16,7 @@ public:
   Motor(int forwardPin, int reversePin, int enablePin);
   Motor(int enablePin);
   void setVelocity(unsigned int speed, bool direction, bool brushFlag);
+  void setVelocity(unsigned int speed);
 
 
 private:
