@@ -9,7 +9,7 @@
 // #include <avr/io.h>
 // #include <avr/interrupt.h>
 #include "Motor.h"
-
+#include "MsTimer2.h"
 
 void start()
 {
@@ -119,6 +119,7 @@ void doCalculations()
 
 void setup()
 {
+   prop.attach(9);    
   Serial.begin (9600);
   //Wire.begin();
   //ndof.setup();
@@ -142,8 +143,15 @@ void setup()
 
   attachInterrupt(2, killSwitch, CHANGE);
   attachInterrupt(3, increase, FALLING);
+  MsTimer2::set(500, flash); // 500ms period
+  MsTimer2::start();
 
   // We setup all our sensors up in this bitch.
+}
+
+void flash()
+{
+  
 }
 
 void killSwitch()
