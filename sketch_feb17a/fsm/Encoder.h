@@ -1,5 +1,5 @@
 /*
-* Encocder
+* Encocder.h
 */
 
 #ifndef Encocder_h
@@ -10,6 +10,10 @@ const int pin_A = 3;  // interrupt pin
 const int pin_B = 2;  // interrupt pin
 
 int dir = 0;
+int count;
+int count_old;
+double num_ticks = 0;
+double distance = 0;
 
 void setup()  {
   Serial.begin(9600); 

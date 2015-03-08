@@ -5,6 +5,7 @@
 #include "PinDefinitions.h"
 #include "NineDOF.h"
 #include "Wire.h"
+#include "Encoder.h"
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
@@ -152,5 +153,19 @@ void loop()
   {
     doCalculations();
   }
+
+  if (count_old != count)
+  {
+    Serial.println(count);
+    num_ticks = count/4;
+    distance = num_ticks*18/180*3.14;
+    Serial.print("Distance: ");
+    Serial.println(distance);
+    // delta_time = curr_time - prev_time;
+    // Serial.print("Time: ");
+    // Serial.println(delta_time);
+    count_old = count;
+  }
+
 }
 
