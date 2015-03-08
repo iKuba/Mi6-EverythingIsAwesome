@@ -17,6 +17,8 @@ double distance = 0;
 
 void setup()  {
   Serial.begin(9600); 
+  count = 0;
+  count_old = 0;
   pinMode(pin_A, INPUT);
   pinMode(pin_B, INPUT);
   digitalWrite(pin_A, HIGH); //turn pullup resistor on

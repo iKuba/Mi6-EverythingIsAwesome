@@ -156,11 +156,18 @@ void loop()
 
   if (count_old != count)
   {
-    Serial.println(count);
-    num_ticks = count/4;
-    distance = num_ticks*18/180*3.14;
-    Serial.print("Distance: ");
-    Serial.println(distance);
+    if (updateEncoder() == 1)
+      Serial.println("CW");
+    else if(updateEncoder() == 2){
+      Serial.println("CCW");
+    else
+      Serial.println("Not moving");
+    }
+    // Serial.println(count);
+    // num_ticks = count/4;
+    // distance = num_ticks*18/180*3.14;
+    // Serial.print("Distance: ");
+    // Serial.println(distance);
     // delta_time = curr_time - prev_time;
     // Serial.print("Time: ");
     // Serial.println(delta_time);
