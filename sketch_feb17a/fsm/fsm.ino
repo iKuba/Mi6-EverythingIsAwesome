@@ -105,6 +105,8 @@ Motor mRight = Motor(5,6,7);
 
 bool runMotors = true;
 int value = 1000;
+int motorSpeed = 0;
+int val = 0;
 
 // Begin calculations
 
@@ -119,7 +121,7 @@ void doCalculations()
 
 void setup()
 {
-   prop.attach(9);    
+  prop.attach(9);    
   Serial.begin (9600);
   //Wire.begin();
   //ndof.setup();
@@ -142,7 +144,7 @@ void setup()
   // sei();
 
   attachInterrupt(2, killSwitch, CHANGE);
-  attachInterrupt(3, increase, FALLING);
+  attachInterrupt(3, increase, CHANGE);
   MsTimer2::set(500, flash); // 500ms period
   MsTimer2::start();
 
@@ -184,14 +186,26 @@ void loop()
   */
   //Serial.println(s2.query());
   prop.writeMicroseconds(value);
+  // Serial.println(runMotors);
  
   if(Serial.available()) 
-    value = Serial.parseInt();    // Parse an Integer from Serial
+  {
+    val = Serial.parseInt();
+    if (val > 900)
+      value = val;
+    else
+      motorSpeed = val;
+  }
 
   if (runMotors)
   {
-    mLeft.setVelocity(100, 1);
-    mRight.setVelocity(100, 1);
+    mLeft.setVelocity(motorSpeed, 0);
+    mRight.setVelocity(motorSpeed, 0);
+  }
+  else
+  {
+    mLeft.setVelocity(0, 1);
+    mRight.setVelocity(0, 1);
   }
 
 }
