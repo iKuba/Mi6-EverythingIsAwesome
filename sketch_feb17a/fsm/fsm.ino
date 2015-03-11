@@ -10,6 +10,9 @@
 void start()
 {
   // Do something like wait for nudge or button clicked
+  // Wait for button push #define START_BUTTON 24
+  // if(START_BUTTON == pressed)
+  // turn robot on i.e exit this condition and proceed
 }
 
 void calibrate()
@@ -25,6 +28,13 @@ void goToRamp()
 void goUpRamp()
 {
   // go up the ramp
+  //Check 9DOF to check angle
+    //if not back away and re enter ramp
+    //if yes
+      //Check Accelerametor to see if guides are down
+        //if not turn robot until both guide accelerameter indicate it is vertical
+        //if it is procedd witj turning prop on and ramping of prop speed
+        // once speed reached proceed with climbing of ramp
 }
 
 void correctTraj()
@@ -35,6 +45,11 @@ void correctTraj()
 void goDownRamp()
 {
   // go down the ramp
+  //Check 9DOF to check angle
+    //if not keep moving forward until correct angle
+    //if yes
+    //stop driving and stop prop
+    // option to check guide accelerameter to ensure still on ramp.
 }
 
 void search()

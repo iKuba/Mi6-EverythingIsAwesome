@@ -48,3 +48,6 @@
 #define FLEX_SENSOR 4 //Analogue Pins
 
 #define KILL_SWITCH 22
+#define START_BUTTON 24
+
+
