@@ -41,8 +41,7 @@
 #define ENCODER_LEFT_B 47
 
 // IR
-#define IR_TRIG 40
-#define IR_RECEIVE 3 //Analogue Pins
+#define IR_SIGNAL 3 //Analogue Pins
 
 // flex Lego Sensor
 #define FLEX_SENSOR 4 //Analogue Pins
