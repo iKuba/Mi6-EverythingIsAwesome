@@ -20,18 +20,18 @@
 #define PROP_ESC_SPEED 11
 
 // limit switch input
-#define LIMIT_SWITCH_1 52
-#define LIMIT_SWITCH_2 50
-#define LIMIT_SWITCH_3 48
+#define LIMIT_SWITCH_RIGHT 52
+#define LIMIT_SWITCH_LEFT 50
+#define LIMIT_SWITCH_BACK 48
 
 // sonar
-#define SONAR_TRIG1 46
-#define SONAR_TRIG2 44
-#define SONAR_TRIG3 42
+#define SONAR_TRIG_RIGHT 46
+#define SONAR_TRIG_LEFT 44
+#define SONAR_TRIG_BACK 42
 
-#define SONAR_ECHO1 0 //Analogue Pins
-#define SONAR_ECHO2 1 //Analogue Pins
-#define SONAR_ECHO3 2 //Analogue Pins
+#define SONAR_ECHO_RIGHT 0 //Analogue Pins
+#define SONAR_ECHO_LEFT 1 //Analogue Pins
+#define SONAR_ECHO_BACK 2 //Analogue Pins
 
 // encoders
 #define ENCODER_RIGHT_A 2 //Inturrupt

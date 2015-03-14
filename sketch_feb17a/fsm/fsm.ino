@@ -1,9 +1,5 @@
 #include "FiniteStateMachine.h"
-#include "TEMT6000.h"
-#include "UltrasonicSensor.h"
-#include "LimitSwitch.h"
 #include "PinDefinitions.h"
-#include "NineDOF.h"
 #include "Wire.h"
 #include "MsTimer2.h"
 
@@ -78,22 +74,6 @@ State Chill = State(chill);
 FSM snr = FSM(Start); // search and rescue state machine
 // End states
 
-// Begin Sensors
-UltrasonicSensor us1 = UltrasonicSensor(SONAR_TRIG1,SONAR_ECHO1);
-UltrasonicSensor us2 = UltrasonicSensor(SONAR_TRIG2,SONAR_ECHO2);
-UltrasonicSensor us3 = UltrasonicSensor(SONAR_TRIG3,SONAR_ECHO3);
-
-LimitSwitch ls1 = LimitSwitch(LIMIT_SWITCH_1);
-LimitSwitch ls2 = LimitSwitch(LIMIT_SWITCH_2);
-LimitSwitch ls3 = LimitSwitch(LIMIT_SWITCH_3);
-
-TEMT6000 reciever_left = TEMT6000(RECEIVER_LEFT);
-TEMT6000 reciever_right = TEMT6000(RECEIVER_RIGHT);
-
-NineDOF ndof = NineDOF();
-
-// End Sensors
-
 // Begin calculations
 
 bool calculateNav = false;
@@ -109,7 +89,6 @@ void setup()
 {
   Serial.begin (9600);
   Wire.begin();
-  ndof.setup();
   MsTimer2::set(500, timerInterrupt);
 
   attachInterrupt(2, killSwitch, CHANGE);
