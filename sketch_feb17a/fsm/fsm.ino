@@ -7,7 +7,21 @@
 #include "Wire.h"
 #include "MsTimer2.h"
 
-void start()
+#define START digitalRead(START_BUTTON)
+
+// Begin Sensors
+UltrasonicSensor us1 = UltrasonicSensor(SONAR_TRIG1,SONAR_ECHO1);
+UltrasonicSensor us2 = UltrasonicSensor(SONAR_TRIG2,SONAR_ECHO2);
+UltrasonicSensor us3 = UltrasonicSensor(SONAR_TRIG3,SONAR_ECHO3);
+
+LimitSwitch ls1 = LimitSwitch(LIMIT_SWITCH_1);
+LimitSwitch ls2 = LimitSwitch(LIMIT_SWITCH_2);
+LimitSwitch ls3 = LimitSwitch(LIMIT_SWITCH_3);
+
+NineDOF ndof = NineDOF();
+// End Sensors
+
+void idle()
 {
   // Do something like wait for nudge or button clicked
   // Wait for button push #define START_BUTTON 24
@@ -17,12 +31,24 @@ void start()
 
 void calibrate()
 {
-  // Figure out where we might be relative to somewhere
+  // assuming ls1 and ls2 are the front ultrasonics
+  if (ls1.query() != ls2.query())
+  {
+    while(ls1.query() != ls2.query())
+    {
+       //rotate in appropriate direction
+    }
+  }
 }
 
 void goToRamp()
 {
-  // based on calculated trajectory go towards ramp
+  //rotate 90 degress
+  // drive forward
+  // when we see a pitch value > 0 we will be off the ramp we will therefore again
+  // make sure we're perpendicular to the wall
+  // drive forward to distance X stop and rotate -90 degrees
+  // drive forward until the ramp is engaged (we will again see a change in yaw)
 }
 
 void goUpRamp()
@@ -120,7 +146,7 @@ void chill()
 }
 
 // Begin states
-State Start = State(start);
+State Idle = State(idle);
 State Calibrate = State(calibrate);
 State GoToRamp = State(goToRamp);
 State GoUpRamp = State(goUpRamp);
@@ -132,24 +158,8 @@ State PickUp = State(pickUp);
 State GoHome = State(goHome);
 State Chill = State(chill);
 
-FSM snr = FSM(Start); // search and rescue state machine
+FSM snr = FSM(Idle); // search and rescue state machine
 // End states
-
-// Begin Sensors
-UltrasonicSensor us1 = UltrasonicSensor(SONAR_TRIG1,SONAR_ECHO1);
-UltrasonicSensor us2 = UltrasonicSensor(SONAR_TRIG2,SONAR_ECHO2);
-UltrasonicSensor us3 = UltrasonicSensor(SONAR_TRIG3,SONAR_ECHO3);
-
-LimitSwitch ls1 = LimitSwitch(LIMIT_SWITCH_1);
-LimitSwitch ls2 = LimitSwitch(LIMIT_SWITCH_2);
-LimitSwitch ls3 = LimitSwitch(LIMIT_SWITCH_3);
-
-TEMT6000 reciever_left = TEMT6000(RECEIVER_LEFT);
-TEMT6000 reciever_right = TEMT6000(RECEIVER_RIGHT);
-
-NineDOF ndof = NineDOF();
-
-// End Sensors
 
 // Begin calculations
 
@@ -192,12 +202,21 @@ void loop()
   * For example we can switch from the start state to the calibrate state like so
   * snr.transitionTo(calibrate); 
   * then we update the state machine so it properly transitions
-  * snr.update();
+  * 
   */
   //Serial.println(s2.query());
+  if (START)
+  {
+    snr.transitionTo(Calibrate);
+  }
+  else if(ls1.query() == ls2.query())
+  {
+    snr.transitionTo(GoToRamp);
+  }
   if(calculateNav)
   {
     doCalculations();
   }
+  snr.update();
 }
 
