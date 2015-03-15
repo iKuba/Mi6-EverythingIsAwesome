@@ -74,6 +74,7 @@ State GoHome = State(goHome);
 State Chill = State(chill);
 
 FSM snr = FSM(Start); // search and rescue state machine
+Robot r;
 // End states
 
 // Begin calculations
@@ -92,8 +93,9 @@ void setup()
   Serial.begin (9600);
   Wire.begin();
   MsTimer2::set(500, timerInterrupt);
-
   attachInterrupt(2, killSwitch, CHANGE);
+  r = Robot();
+  r.setup();
 
   // We setup all our sensors up in this bitch.
 }
@@ -106,7 +108,7 @@ void killSwitch()
 
 void timerInterrupt()
 {
-    calculateNav = true;
+  calculateNav = true;
 }
 
 void loop()

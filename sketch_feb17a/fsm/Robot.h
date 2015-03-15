@@ -1,7 +1,7 @@
 /**
  * Look at me I'm a header file
  *
- * robot.h
+ * Robot.h
  */
 #ifndef Robot_h
 #define Robot_h
@@ -18,8 +18,8 @@
 class Robot
 {
 public:
-  enum POSITION {CENTER, LEFT, RIGHT};
   Robot();
+  enum POSITION {CENTER, LEFT, RIGHT};
 
   float getDistance(POSITION pos);
 
@@ -30,17 +30,18 @@ public:
   void rotate(float angle);
   void setBrush(bool brush);
   void propOn(bool on);
+  void drive();
 
 protected:
 
 private:
 	// Begin Sensors
-	static UltrasonicSensor usRight, usCenter, usLeft;
+  static UltrasonicSensor usRight, usCenter, usLeft;
 
 	static LimitSwitch lsRight, lsCenter, lsLeft;
 
-	static NineDOF ndof;
-	
+  static NineDOF ndof;
+
 	static Servo prop_;
 	// End Sensors
 
