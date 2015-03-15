@@ -5,38 +5,56 @@
 * example #define pin1 1
 */
 
-
 // motor control
-#define MOTOR_LEFT_SPEED 1
-#define MOTOR_RIGHT_SPEED 5
+#define MOTOR_LEFT_SPEED 4
+#define MOTOR_RIGHT_SPEED 9
 
-#define MOTOR_LEFT_DIR 55
-#define MOTOR_RIGHT_DIR 56
+#define MOTOR_LEFT_DIR_A 5
+#define MOTOR_RIGHT_DIR_A 7
+#define MOTOR_LEFT_DIR_B 6
+#define MOTOR_RIGHT_DIR_B 8
+
+// brush
+#define MOTOR_BRUSH_SPEED 10
+// prop
+#define PROP_ESC_SPEED 11
 
 #define MOTOR_LEFT_ENABLE 2
 #define MOTOR_RIGHT_ENABLE 3
 
 // limit switch input
-#define LIMIT_SWITCH_1 52
-#define LIMIT_SWITCH_2 53
-#define LIMIT_SWITCH_3 54
+#define LIMIT_SWITCH_LEFT 52
+#define LIMIT_SWITCH_MID 50
+#define LIMIT_SWITCH_RIGHT 48
 
 // sonar
-#define SONAR_TRIG1 70
-#define SONAR_TRIG2 71
-#define SONAR_TRIG3 72
+#define SONAR_TRIG_LEFT 46
+#define SONAR_TRIG_CENTER 44
+#define SONAR_TRIG3_RIGHT 42
 
-#define SONAR_ECHO1 82
-#define SONAR_ECHO2 83
-#define SONAR_ECHO3 84
+#define SONAR_ECHO_LEFT 0 //Analog Pins
+#define SONAR_ECHO_CENTER 1 //Analog Pins
+#define SONAR_ECHO_RIGHT 2 //Analog Pins
 
 // encoders
-#define ENCODER_RIGHT 50
-#define ENCODER_LEFT 51
+#define ENCODER_RIGHT_A 2 //Inturrupt
+#define ENCODER_LEFT_A 18 //Inturrupt
+#define ENCODER_RIGHT_B 3 //Inturrupt
+#define ENCODER_LEFT_B 19 //Inturrupt
 
-// emmiter/receiver
-#define EMITTER_LEFT 57
-#define EMMITER_RIGHT 58
+//9DOF Sensor
+#define DOF9_SERIAL_SCL 21 //i2c scl pin
+#define DOF9_SERIAL_SDA 20 //i2c sda pin //Also Kill Switch Interrupt
 
-#define RECEIVER_LEFT 59
-#define RECEIVER_RIGHT 60
+//Accel Sensor
+#define ACCEL_LEFT_GUIDE 5 //Analog Pins
+#define ACCEL_RIGHT_GUIDE 6 //Analog Pins
+
+// IR
+#define IR_SIGNAL 3 //Analog Pins
+
+// Flex Lego Sensor
+#define FLEX_SENSOR 4 //Analog Pins
+
+#define KILL_SWITCH 20 //Inturrupt
+#define START_BUTTON 30 //Incase we need it
