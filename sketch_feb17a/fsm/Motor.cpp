@@ -13,14 +13,14 @@ Motor::Motor(int forwardPin, int reversePin, int enablePin) :
   pinMode(reverse_pin_, OUTPUT);
   pinMode(enable_pin_, OUTPUT);
  
-  //digitalWrite(enable_pin_, HIGH);
+  digitalWrite(enable_pin_, HIGH);
 }
 
 Motor::Motor(int enablePin) : enable_pin_(enablePin)
 {
   pinMode(enable_pin_, OUTPUT);
  
-  //digitalWrite(enable_pin_, HIGH);
+  digitalWrite(enable_pin_, HIGH);
 }
 
 void Motor::setVelocity(unsigned int speed, bool direction, bool brushFlag)
