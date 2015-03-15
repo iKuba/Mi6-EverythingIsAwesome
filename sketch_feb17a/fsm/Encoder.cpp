@@ -11,23 +11,20 @@ Encoder::Encoder(int pinA, int pinB) :
   pinMode(pinB_, INPUT);
 }
 
-void Encoder::calculateSpeed(double curr_time, double prev_time, double delta_time, double time, double &speed) :
-							curr_time_(curr_time), prev_time_(prev_time), delta_time_(delta_time), time_(time), &speed_(speed)
+void Encoder::calculateSpeed()
 {
-  	curr_time_ = micros();
-  	delta_time_ = curr_time_ - prev_time_;
-    prev_time_ = curr_time_;
-    time_ = delta_time_/1000000;
+  float dis = 0.00549778;
+  curr_time_ = micros();
+  delta_time_ = curr_time_ - prev_time_;
+  prev_time_ = curr_time_;
+  time_ = delta_time_/1000000;
     
-    if (time_ != 0) 
-    {
-      speed_ = dis/t;
-    }
-    else 
-    {
-      speed_ = 0;
-    }
-  } 
-    return speed_;
+  if (time_ != 0) 
+  {
+    speed = dis/time_;
   }
+   else 
+  {
+    speed = 0;
+  } 
 }

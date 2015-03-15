@@ -1,4 +1,4 @@
-#include "FiniteStateMachine.h"
+//#include "FiniteStateMachine.h"
 #include "TEMT6000.h"
 #include "UltrasonicSensor.h"
 #include "LimitSwitch.h"
@@ -66,6 +66,7 @@ void chill()
 }
 
 // Begin states
+/*
 State Start = State(start);
 State Calibrate = State(calibrate);
 State GoToRamp = State(goToRamp);
@@ -76,14 +77,14 @@ State Search = State(search);
 State GoToLegoMan = State(goToLegoMan);
 State PickUp = State(pickUp);
 State GoHome = State(goHome);
-State Chill = State(chill);
+State Chill = State(chill);*/
 
-FSM snr = FSM(Start); // search and rescue state machine
+//FSM snr = FSM(Start); // search and rescue state machine
 // End states
 
 // Begin Sensors
-UltrasonicSensor us1 = UltrasonicSensor(SONAR_TRIG1,SONAR_ECHO1);
-UltrasonicSensor us2 = UltrasonicSensor(SONAR_TRIG2,SONAR_ECHO2);
+//UltrasonicSensor us1 = UltrasonicSensor(SONAR_TRIG1,SONAR_ECHO1);
+/*UltrasonicSensor us2 = UltrasonicSensor(SONAR_TRIG2,SONAR_ECHO2);
 UltrasonicSensor us3 = UltrasonicSensor(SONAR_TRIG3,SONAR_ECHO3);
 
 LimitSwitch ls1 = LimitSwitch(LIMIT_SWITCH_1);
@@ -93,7 +94,7 @@ LimitSwitch ls3 = LimitSwitch(LIMIT_SWITCH_3);
 TEMT6000 reciever_left = TEMT6000(RECEIVER_LEFT);
 TEMT6000 reciever_right = TEMT6000(RECEIVER_RIGHT);
 
-NineDOF ndof = NineDOF();
+NineDOF ndof = NineDOF();*/
 
 // End Sensors
 
@@ -112,7 +113,7 @@ void setup()
 {
   Serial.begin (9600);
   Wire.begin();
-  ndof.setup();
+  //ndof.setup();
 
   // initialize Timer1
   cli();          // disable global interrupts
@@ -133,10 +134,10 @@ void setup()
 
   // We setup all our sensors up in this bitch.
 
-  attachInterrupt(ENCODER_RIGHT_A, updateEncoder_1, CHANGE); 
-  attachInterrupt(ENCODER_LEFT_A, updateEncoder_1, CHANGE);
-  attachInterrupt(ENCODER_RIGHT_B, updateEncoder_2, CHANGE); 
-  attachInterrupt(ENCODER_LEFT_B, updateEncoder_2, CHANGE);
+  attachInterrupt(ENCODER_RIGHT_A, updateEncoder_R, CHANGE); 
+  attachInterrupt(ENCODER_LEFT_A, updateEncoder_L, CHANGE);
+  attachInterrupt(ENCODER_RIGHT_B, updateEncoder_R, CHANGE); 
+  attachInterrupt(ENCODER_LEFT_B, updateEncoder_L, CHANGE);
 }
 
 ISR(TIMER1_COMPA_vect)

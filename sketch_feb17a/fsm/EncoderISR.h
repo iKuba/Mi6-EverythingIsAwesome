@@ -13,47 +13,48 @@ Encoder e_left = Encoder(ENCODER_LEFT_A, ENCODER_LEFT_B);
 Encoder e_right = Encoder(ENCODER_RIGHT_A, ENCODER_RIGHT_B);
 
 //Encoder 1 = RIGHT ENCODER
-void updateEncoder_1(int &lastEncoded_1, int count_1, int &dir_1, int pinA, int pinB){
-  count_1++;
-  int MSB = digitalRead(pinA); //MSB = most significant bit
-  int LSB = digitalRead(pinB); //LSB = least significant bit
+void updateEncoder_R(){
+  e_right.count++;
+  int MSB = digitalRead(ENCODER_RIGHT_A); //MSB = most significant bit //this what does this do??
+  int LSB = digitalRead(ENCODER_RIGHT_B); //LSB = least significant bit
 
   int encoded = (MSB << 1) | LSB; //converting the 2 pin value to single number
-  int sum  = (lastEncoded_1 << 2) | encoded; //adding it to the previous encoded value
+  int sum  = (e_right.lastEncoded << 2) | encoded; //adding it to the previous encoded value
 
   //CW direction
   if(sum == 0b1101 || sum == 0b0100 || sum == 0b0010 || sum == 0b1011) {
-    dir_1 = 1;
+    e_right.direction = 1;
   }
 
   //CCW direction
   if(sum == 0b1110 || sum == 0b0111 || sum == 0b0001 || sum == 0b1000) {
-    dir_1 = 2;
+    e_right.direction = 2;
   }
-  calculateSpeed();
-  lastEncoded_1 = encoded;
+
+  e_right.calculateSpeed();
+  e_right.lastEncoded = encoded;
 }
 
 //Encoder 2 = LEFT ENCODER
-void updateEncoder_2(int &lastEncoded_2, int count_2, int &dir_2, int pinA, int pinB){
-  count_2++;
-  int MSB = digitalRead(pinA); //MSB = most significant bit
-  int LSB = digitalRead(pinB); //LSB = least significant bit
+void updateEncoder_L(){
+  e_left.count++;
+  int MSB = digitalRead(ENCODER_LEFT_A); //MSB = most significant bit
+  int LSB = digitalRead(ENCODER_LEFT_B); //LSB = least significant bit
 
   int encoded = (MSB << 1) | LSB; //converting the 2 pin value to single number
-  int sum  = (lastEncoded_2 << 2) | encoded; //adding it to the previous encoded value
+  int sum  = (e_left.lastEncoded << 2) | encoded; //adding it to the previous encoded value
 
   //CW direction
   if(sum == 0b1101 || sum == 0b0100 || sum == 0b0010 || sum == 0b1011) {
-    dir_2 = 1;
+    e_left.direction = 1;
   }
 
   //CCW direction
   if(sum == 0b1110 || sum == 0b0111 || sum == 0b0001 || sum == 0b1000) {
-    dir_2 = 2;
+    e_left.direction = 2;
   }
-  calculateSpeed();
-  lastEncoded_2 = encoded;
+  e_left.calculateSpeed();
+  e_left.lastEncoded = encoded;
 }
 
 #endif
