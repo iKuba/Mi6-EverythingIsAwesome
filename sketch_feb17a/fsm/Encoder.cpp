@@ -9,6 +9,8 @@ Encoder::Encoder(int pinA, int pinB) :
 {
   pinMode(pinA_, INPUT);
   pinMode(pinB_, INPUT);
+  digitalWrite(pinA_, HIGH); //turn pullup resistor on
+  digitalWrite(pinB_, HIGH); //turn pullup resistor on
   curr_time_ = micros();
 }
 
