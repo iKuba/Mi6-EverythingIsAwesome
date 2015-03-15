@@ -5,12 +5,9 @@
 #include "PinDefinitions.h"
 #include "NineDOF.h"
 #include "Wire.h"
-<<<<<<< HEAD
 #include "Motor.h"
 
-=======
 #include "MsTimer2.h"
->>>>>>> 56ae2b9d685711a18e18a1b88a7e2c8a90248dfd
 
 void start()
 {
@@ -81,27 +78,19 @@ State GoHome = State(goHome);
 State Chill = State(chill);
 
 FSM snr = FSM(Start); // search and rescue state machine
-<<<<<<< HEAD
-UltrasonicSensor us1 = UltrasonicSensor(40,A12); //Back
-// UltrasonicSensor us2 = UltrasonicSensor(,); //Left
-UltrasonicSensor us3 = UltrasonicSensor(44,A2); //Right
-=======
 // End states
 
 // Begin Sensors
-UltrasonicSensor us1 = UltrasonicSensor(SONAR_TRIG1,SONAR_ECHO1);
-UltrasonicSensor us2 = UltrasonicSensor(SONAR_TRIG2,SONAR_ECHO2);
-UltrasonicSensor us3 = UltrasonicSensor(SONAR_TRIG3,SONAR_ECHO3);
->>>>>>> 56ae2b9d685711a18e18a1b88a7e2c8a90248dfd
+UltrasonicSensor us_left = UltrasonicSensor(SONAR_TRIG_LEFT,SONAR_ECHO_LEFT);
+UltrasonicSensor us_right = UltrasonicSensor(SONAR_TRIG_RIGHT,SONAR_ECHO_RIGHT);
+UltrasonicSensor us_cen = UltrasonicSensor(SONAR_TRIG_CENTER,SONAR_ECHO_CENTER);
 
-LimitSwitch ls1 = LimitSwitch(LIMIT_SWITCH_1);
-LimitSwitch ls2 = LimitSwitch(LIMIT_SWITCH_2);
-LimitSwitch ls3 = LimitSwitch(LIMIT_SWITCH_3);
+// LimitSwitch ls1 = LimitSwitch(LIMIT_SWITCH_1);
+// LimitSwitch ls2 = LimitSwitch(LIMIT_SWITCH_2);
+// LimitSwitch ls3 = LimitSwitch(LIMIT_SWITCH_3);
 
-LimitSwitch testSwitch = LimitSwitch(42);
-
-TEMT6000 reciever_left = TEMT6000(RECEIVER_LEFT);
-TEMT6000 reciever_right = TEMT6000(RECEIVER_RIGHT);
+// TEMT6000 reciever_left = TEMT6000(RECEIVER_LEFT);
+// TEMT6000 reciever_right = TEMT6000(RECEIVER_RIGHT);
 
 NineDOF ndof = NineDOF();
 Motor mLeft = Motor(3,4,2);
@@ -127,22 +116,20 @@ void setup()
   Serial.begin (9600);
   Wire.begin();
   ndof.setup();
-<<<<<<< HEAD
+
   attachInterrupt(4, thing, FALLING);
-=======
   MsTimer2::set(500, timerInterrupt);
 
   attachInterrupt(2, killSwitch, CHANGE);
->>>>>>> 56ae2b9d685711a18e18a1b88a7e2c8a90248dfd
 
   // We setup all our sensors up in this bitch.
 }
 
-<<<<<<< HEAD
 void thing()
 {
   runMotors = !runMotors;
-=======
+}
+
 void killSwitch()
 {
   
@@ -152,7 +139,6 @@ void killSwitch()
 void timerInterrupt()
 {
     calculateNav = true;
->>>>>>> 56ae2b9d685711a18e18a1b88a7e2c8a90248dfd
 }
 
 void loop()
@@ -164,7 +150,6 @@ void loop()
   * then we update the state machine so it properly transitions
   * snr.update();
   */
-<<<<<<< HEAD
 
   // Serial.println(runMotors);
   // if (runMotors)
@@ -175,24 +160,19 @@ void loop()
   // Serial.println(s2.query());
 
   Serial.print("Left Ultrasonic: ");
-  Serial.println(us3.query());
+  Serial.println(us_left.query());
+  Serial.print("Right Ultrasonic: ");
+  Serial.println(us_right.query());
+  Serial.print("Center Ultrasonic: ");
+  Serial.println(us_cen.query());
   Serial.println();
 
-  // Serial.print("Back Ultrasonic: ");
-  // Serial.println(us1.query());
-  // Serial.println();
-
-  // Serial.print("Right Ultrasonic: ");
-  // Serial.println(us3.query());
-  // Serial.println();
-
   // delay(100);
-=======
+
   //Serial.println(s2.query());
   if(calculateNav)
   {
     doCalculations();
   }
->>>>>>> 56ae2b9d685711a18e18a1b88a7e2c8a90248dfd
 }
 
