@@ -16,19 +16,29 @@ Motor::Motor(int forwardPin, int reversePin, int enablePin) :
   digitalWrite(enable_pin_, HIGH);
 }
 
-void Motor::setVelocity(unsigned int speed, bool direction)
+Motor::Motor(int enablePin) : enable_pin_(enablePin)
 {
-   analogWrite(enable_pin_, speed);
-   
-   if(direction)
-   {
-   	  digitalWrite(forward_pin_, HIGH);
-   	  digitalWrite(reverse_pin_, LOW);
-   }
-   else
-   {
-   	  digitalWrite(forward_pin_, LOW);
-   	  digitalWrite(reverse_pin_, HIGH);
-   }
+  pinMode(enable_pin_, OUTPUT);
+ 
+  digitalWrite(enable_pin_, HIGH);
+}
 
+void Motor::setVelocity(unsigned int speed, bool direction, bool brushFlag)
+{ 
+  analogWrite(enable_pin_, speed);
+  if(direction)
+  {
+    digitalWrite(forward_pin_, HIGH);
+    digitalWrite(reverse_pin_, LOW);
+  }
+  else
+  {
+    digitalWrite(forward_pin_, LOW);
+    digitalWrite(reverse_pin_, HIGH);
+  }
+}
+
+void Motor::setVelocity(unsigned int speed)
+{
+  analogWrite(enable_pin_, speed);
 }

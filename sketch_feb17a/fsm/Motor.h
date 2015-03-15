@@ -14,7 +14,9 @@ public:
    * Constructor for the light intensity sensor
    */
   Motor(int forwardPin, int reversePin, int enablePin);
-  void setVelocity(unsigned int speed, bool direction);
+  Motor(int enablePin);
+  void setVelocity(unsigned int speed, bool direction, bool brushFlag);
+  void setVelocity(unsigned int speed);
 
 
 private:
