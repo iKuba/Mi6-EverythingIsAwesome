@@ -13,6 +13,7 @@
 #include "NineDOF.h"
 #include "Motor.h"
 #include <Wire.h>
+#include <Servo.h>
 
 class Robot
 {
@@ -24,6 +25,11 @@ public:
 
   uint8_t switches();
   void setup();
+  void setVelocity(float vel);
+  void setVelocity(float vel, POSITION pos);
+  void rotate(float angle);
+  void setBrush(bool brush);
+  void propOn(bool on);
 
 protected:
 
@@ -34,11 +40,16 @@ private:
 	static LimitSwitch lsRight, lsCenter, lsLeft;
 
 	static NineDOF ndof;
+	
+	static Servo prop_;
 	// End Sensors
 
 	// motors
-
 	static Motor mLeft, mRight, mBrush;
+
+	float velocityLeft_, velocityRight_;
+	int propSpeed_;
+	bool brush_;
 
 	// end motors
 };
