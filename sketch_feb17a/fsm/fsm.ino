@@ -77,9 +77,9 @@ State GoHome = State(goHome);
 State Chill = State(chill);
 
 FSM snr = FSM(Start); // search and rescue state machine
-UltrasonicSensor us1 = UltrasonicSensor(SONAR_TRIG1,SONAR_ECHO1);
-UltrasonicSensor us2 = UltrasonicSensor(SONAR_TRIG2,SONAR_ECHO2);
-UltrasonicSensor us3 = UltrasonicSensor(SONAR_TRIG3,SONAR_ECHO3);
+UltrasonicSensor us1 = UltrasonicSensor(40,A12); //Back
+// UltrasonicSensor us2 = UltrasonicSensor(,); //Left
+UltrasonicSensor us3 = UltrasonicSensor(44,A2); //Right
 
 LimitSwitch ls1 = LimitSwitch(LIMIT_SWITCH_1);
 LimitSwitch ls2 = LimitSwitch(LIMIT_SWITCH_2);
@@ -122,12 +122,26 @@ void loop()
   * snr.update();
   */
 
-  Serial.println(runMotors);
-  if (runMotors)
-  {
-    mLeft.setVelocity(255, 1);
-    mRight.setVelocity(255, 1);
-  }
-  //Serial.println(s2.query());
+  // Serial.println(runMotors);
+  // if (runMotors)
+  // {
+  //   mLeft.setVelocity(255, 1);
+  //   mRight.setVelocity(255, 1);
+  // }
+  // Serial.println(s2.query());
+
+  Serial.print("Left Ultrasonic: ");
+  Serial.println(us3.query());
+  Serial.println();
+
+  // Serial.print("Back Ultrasonic: ");
+  // Serial.println(us1.query());
+  // Serial.println();
+
+  // Serial.print("Right Ultrasonic: ");
+  // Serial.println(us3.query());
+  // Serial.println();
+
+  // delay(100);
 }
 
