@@ -88,10 +88,6 @@ State Chill = State(chill);*/
 /*UltrasonicSensor us2 = UltrasonicSensor(SONAR_TRIG2,SONAR_ECHO2);
 UltrasonicSensor us3 = UltrasonicSensor(SONAR_TRIG3,SONAR_ECHO3);
 
-LimitSwitch ls1 = LimitSwitch(LIMIT_SWITCH_1);
-LimitSwitch ls2 = LimitSwitch(LIMIT_SWITCH_2);
-LimitSwitch ls3 = LimitSwitch(LIMIT_SWITCH_3);
-
 TEMT6000 reciever_left = TEMT6000(RECEIVER_LEFT);
 TEMT6000 reciever_right = TEMT6000(RECEIVER_RIGHT);
 
@@ -102,6 +98,11 @@ NineDOF ndof = NineDOF();*/
 
 Motor mRight = Motor(MOTOR_LEFT_DIR_A,MOTOR_LEFT_DIR_B,MOTOR_LEFT_ENABLE);
 Motor mLeft = Motor(MOTOR_RIGHT_DIR_A,MOTOR_RIGHT_DIR_B,MOTOR_RIGHT_ENABLE);
+
+
+LimitSwitch ls_left = LimitSwitch(LIMIT_SWITCH_LEFT);
+LimitSwitch ls_mid = LimitSwitch(LIMIT_SWITCH_MID);
+LimitSwitch ls_right = LimitSwitch(LIMIT_SWITCH_RIGHT);
 
 // Begin calculations
 
@@ -159,18 +160,49 @@ void loop()
   * then we update the state machine so it properly transitions
   * snr.update();
   */
-  //Serial.println(s2.query());
 
+  //Running Motors
   mLeft.setVelocity(255, 1);
   mRight.setVelocity(255, 1);
 
+  //Testing Encoders
   Serial.print("Right Encoder: ");
   Serial.println(e_right.speed,4);
-
   Serial.print("Left Encoder: ");
   Serial.println(e_left.speed,4);
-
   Serial.println();
+
+  //Testing Limit Switches
+  Serial.print("Left Limit Switch: ");
+  if (ls_left.query())
+  {
+    Serial.println("HIT");
+  }
+  else
+  {
+    Serial.println("NOT HIT");
+  }
+
+  Serial.print("Right Limit Switch: ");
+  if (ls_right.query())
+  {
+    Serial.println("HIT");
+  }
+  else
+  {
+    Serial.println("NOT HIT");
+  }
+
+  Serial.print("Middle Limit Switch: ");
+  if (ls_mid.query())
+  {
+    Serial.println("HIT");
+  }
+  else
+  {
+    Serial.println("NOT HIT");
+  }
+
   delay(1000);
 }
 
