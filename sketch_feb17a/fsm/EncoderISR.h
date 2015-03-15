@@ -1,5 +1,5 @@
 /*
-* LimitSwitch.h
+* EncoderISR.h
 */
 #include "Encoder.h"
 
