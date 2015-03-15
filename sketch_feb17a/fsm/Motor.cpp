@@ -23,7 +23,7 @@ Motor::Motor(int enablePin) : enable_pin_(enablePin)
   digitalWrite(enable_pin_, HIGH);
 }
 
-void Motor::setVelocity(unsigned int speed, bool direction, bool brushFlag)
+void Motor::setVelocity(unsigned int speed, bool direction)
 { 
   analogWrite(enable_pin_, speed);
   if(direction)
