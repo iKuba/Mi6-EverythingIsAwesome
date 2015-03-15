@@ -29,7 +29,7 @@ protected:
 
 private:
 	// Begin Sensors
-	static UltrasonicSensor usRight, usBack, usLeft;
+	static UltrasonicSensor usRight, usCenter, usLeft;
 
 	static LimitSwitch lsRight, lsCenter, lsLeft;
 

@@ -35,5 +35,5 @@ float Robot::getDistance(POSITION pos)
 
 uint8_t Robot::switches()
 {
-    return (lsLeft.query() << 2) | (lsCenter << 1) | (lsRight);
+    return (lsLeft.query() << 2) | (lsCenter.query() << 1) | (lsRight.query());
 }
