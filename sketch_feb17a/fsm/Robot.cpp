@@ -37,6 +37,14 @@ void Robot::setVelocity(float vel)
   velocityLeft_ = velocityRight_ = vel;
 }
 
+void Robot::rotate(float angle)
+{ 
+  setVelocity(0);
+  // now enter a loop which condition is to rotate left or right based on
+  // angle by setting motors to equal and oposite things
+  // this will cause us to turn in place
+}
+
 void Robot::propOn(bool on)
 {
   if (on)
