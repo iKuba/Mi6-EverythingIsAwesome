@@ -15,11 +15,11 @@
 #include <Wire.h>
 #include <Servo.h>
 
+enum POSITION {CENTER, LEFT, RIGHT};
 class Robot
 {
 public:
   Robot();
-  enum POSITION {CENTER, LEFT, RIGHT};
 
   float getDistance(POSITION pos);
 
