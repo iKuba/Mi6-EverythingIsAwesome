@@ -6,9 +6,9 @@
 #include "NineDOF.h"
 #include "Wire.h"
 #include "Encoder.h"
+#include "EncoderISR.h"
 #include <avr/io.h>
 #include <avr/interrupt.h>
-
 
 void start()
 {
@@ -132,6 +132,11 @@ void setup()
   sei();
 
   // We setup all our sensors up in this bitch.
+
+  attachInterrupt(ENCODER_RIGHT_A, updateEncoder_1, CHANGE); 
+  attachInterrupt(ENCODER_LEFT_A, updateEncoder_1, CHANGE);
+  attachInterrupt(ENCODER_RIGHT_B, updateEncoder_2, CHANGE); 
+  attachInterrupt(ENCODER_LEFT_B, updateEncoder_2, CHANGE);
 }
 
 ISR(TIMER1_COMPA_vect)
@@ -149,30 +154,6 @@ void loop()
   * snr.update();
   */
   //Serial.println(s2.query());
-  if(calculateNav)
-  {
-    doCalculations();
-  }
-
-  if (count_old != count)
-  {
-    if (updateEncoder() == 1)
-      Serial.println("CW");
-    else if(updateEncoder() == 2){
-      Serial.println("CCW");
-    else
-      Serial.println("Not moving");
-    }
-    // Serial.println(count);
-    // num_ticks = count/4;
-    // distance = num_ticks*18/180*3.14;
-    // Serial.print("Distance: ");
-    // Serial.println(distance);
-    // delta_time = curr_time - prev_time;
-    // Serial.print("Time: ");
-    // Serial.println(delta_time);
-    count_old = count;
-  }
 
 }
 
