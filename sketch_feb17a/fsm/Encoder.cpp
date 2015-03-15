@@ -9,22 +9,29 @@ Encoder::Encoder(int pinA, int pinB) :
 {
   pinMode(pinA_, INPUT);
   pinMode(pinB_, INPUT);
+  curr_time_ = micros();
 }
 
 void Encoder::calculateSpeed()
 {
-  float dis = 0.00549778;
+  double dis = 0.00549778;
   curr_time_ = micros();
-  delta_time_ = curr_time_ - prev_time_;
-  prev_time_ = curr_time_;
-  time_ = delta_time_/1000000;
-    
-  if (time_ != 0) 
+
+  if (count%4 == 0)
   {
-    speed = dis/time_;
+    delta_time_ = curr_time_ - prev_time_;
+    prev_time_ = curr_time_;
+    time_ = delta_time_/1000000;
+      
+    if (time_ != 0) 
+    {
+      speed = dis/time_;
+    }
+     else 
+    {
+      speed = 6;
+    } 
+
   }
-   else 
-  {
-    speed = 0;
-  } 
+
 }

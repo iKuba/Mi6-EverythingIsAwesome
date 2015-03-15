@@ -7,6 +7,7 @@
 #include "Wire.h"
 #include "Encoder.h"
 #include "EncoderISR.h"
+#include "Motor.h"
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
@@ -94,9 +95,13 @@ LimitSwitch ls3 = LimitSwitch(LIMIT_SWITCH_3);
 TEMT6000 reciever_left = TEMT6000(RECEIVER_LEFT);
 TEMT6000 reciever_right = TEMT6000(RECEIVER_RIGHT);
 
+
 NineDOF ndof = NineDOF();*/
 
 // End Sensors
+
+Motor mRight = Motor(MOTOR_LEFT_DIR_A,MOTOR_LEFT_DIR_B,MOTOR_LEFT_ENABLE);
+Motor mLeft = Motor(MOTOR_RIGHT_DIR_A,MOTOR_RIGHT_DIR_B,MOTOR_RIGHT_ENABLE);
 
 // Begin calculations
 
@@ -135,8 +140,8 @@ void setup()
   // We setup all our sensors up in this bitch.
 
   attachInterrupt(ENCODER_RIGHT_A, updateEncoder_R, CHANGE); 
-  attachInterrupt(ENCODER_LEFT_A, updateEncoder_L, CHANGE);
   attachInterrupt(ENCODER_RIGHT_B, updateEncoder_R, CHANGE); 
+  attachInterrupt(ENCODER_LEFT_A, updateEncoder_L, CHANGE);
   attachInterrupt(ENCODER_LEFT_B, updateEncoder_L, CHANGE);
 }
 
@@ -156,5 +161,16 @@ void loop()
   */
   //Serial.println(s2.query());
 
+  mLeft.setVelocity(255, 1);
+  mRight.setVelocity(255, 1);
+
+  Serial.print("Right Encoder: ");
+  Serial.println(e_right.speed,4);
+
+  Serial.print("Left Encoder: ");
+  Serial.println(e_left.speed,4);
+
+  Serial.println();
+  delay(1000);
 }
 

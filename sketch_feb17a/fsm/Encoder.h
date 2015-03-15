@@ -17,8 +17,8 @@ public:
 
   int direction;
   int count;
-  int lastEncoded;
-  int speed;
+  volatile int lastEncoded;
+  double speed;
 
   void calculateSpeed();
 
@@ -26,10 +26,10 @@ private:
   int pinA_;
   int pinB_;
 
-  double curr_time_;
-  double prev_time_;
+  unsigned long curr_time_;
+  unsigned long prev_time_;
   double delta_time_;
-  int time_;
+  double time_;
 };
 
 #endif

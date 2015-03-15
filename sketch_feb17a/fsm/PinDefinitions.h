@@ -6,8 +6,8 @@
 */
 
 // motor control
-#define MOTOR_LEFT_SPEED 4
-#define MOTOR_RIGHT_SPEED 9
+#define MOTOR_LEFT_ENABLE 4
+#define MOTOR_RIGHT_ENABLE 9
 
 #define MOTOR_LEFT_DIR_A 5
 #define MOTOR_RIGHT_DIR_A 7
