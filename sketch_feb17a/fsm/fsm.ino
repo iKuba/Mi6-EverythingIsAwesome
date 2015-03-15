@@ -85,16 +85,16 @@ UltrasonicSensor us_left = UltrasonicSensor(SONAR_TRIG_LEFT,SONAR_ECHO_LEFT);
 UltrasonicSensor us_right = UltrasonicSensor(SONAR_TRIG_RIGHT,SONAR_ECHO_RIGHT);
 UltrasonicSensor us_cen = UltrasonicSensor(SONAR_TRIG_CENTER,SONAR_ECHO_CENTER);
 
-// LimitSwitch ls1 = LimitSwitch(LIMIT_SWITCH_1);
-// LimitSwitch ls2 = LimitSwitch(LIMIT_SWITCH_2);
-// LimitSwitch ls3 = LimitSwitch(LIMIT_SWITCH_3);
+LimitSwitch ls_left = LimitSwitch(LIMIT_SWITCH_LEFT);
+LimitSwitch ls_right = LimitSwitch(LIMIT_SWITCH_RIGHT);
+LimitSwitch ls3_mid = LimitSwitch(LIMIT_SWITCH_MID);
 
 // TEMT6000 reciever_left = TEMT6000(RECEIVER_LEFT);
 // TEMT6000 reciever_right = TEMT6000(RECEIVER_RIGHT);
 
 NineDOF ndof = NineDOF();
-Motor mLeft = Motor(3,4,2);
-Motor mRight = Motor(5,6,7);
+Motor mRight = Motor(MOTOR_LEFT_DIR_A,MOTOR_LEFT_DIR_B,MOTOR_LEFT_ENABLE);
+Motor mLeft = Motor(MOTOR_RIGHT_DIR_A,MOTOR_RIGHT_DIR_B,MOTOR_RIGHT_ENABLE);
 
 bool runMotors = false;
 
@@ -151,13 +151,15 @@ void loop()
   * snr.update();
   */
 
-  // Serial.println(runMotors);
-  // if (runMotors)
-  // {
-  //   mLeft.setVelocity(255, 1);
-  //   mRight.setVelocity(255, 1);
-  // }
-  // Serial.println(s2.query());
+  mLeft.setVelocity(255, 1);
+  mRight.setVelocity(255, 1);
+
+  Serial.print("Left Limit Switch: ");
+  Serial.println(us_left.query());
+  Serial.print("Right Limit Switch: ");
+  Serial.println(us_right.query());
+  Serial.print("Middle Limit Switch: ");
+  Serial.println(us_cen.query());
 
   Serial.print("Left Ultrasonic: ");
   Serial.println(us_left.query());

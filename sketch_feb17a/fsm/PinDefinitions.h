@@ -6,8 +6,8 @@
 */
 
 // motor control
-#define MOTOR_LEFT_SPEED 4
-#define MOTOR_RIGHT_SPEED 9
+#define MOTOR_LEFT_ENABLE 4
+#define MOTOR_RIGHT_ENABLE 9
 
 #define MOTOR_LEFT_DIR_A 5
 #define MOTOR_RIGHT_DIR_A 7
@@ -18,9 +18,6 @@
 #define MOTOR_BRUSH_SPEED 10
 // prop
 #define PROP_ESC_SPEED 11
-
-#define MOTOR_LEFT_ENABLE 2
-#define MOTOR_RIGHT_ENABLE 3
 
 // limit switch input
 #define LIMIT_SWITCH_LEFT 52
