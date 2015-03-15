@@ -11,6 +11,7 @@
 #include "PinDefinitions.h"
 #include "LimitSwitch.h"
 #include "NineDOF.h"
+#include "Motor.h"
 #include <Wire.h>
 
 class Robot
@@ -28,16 +29,18 @@ protected:
 
 private:
 	// Begin Sensors
-	static UltrasonicSensor usRight;
-	static UltrasonicSensor usBack;
-	static UltrasonicSensor usLeft;
+	static UltrasonicSensor usRight, usBack, usLeft;
 
-	static LimitSwitch lsRight;
-	static LimitSwitch lsCenter;
-	static LimitSwitch lsLeft;
+	static LimitSwitch lsRight, lsCenter, lsLeft;
 
 	static NineDOF ndof;
 	// End Sensors
+
+	// motors
+
+	static Motor mLeft, mRight, mBrush;
+
+	// end motors
 };
 
 #endif
