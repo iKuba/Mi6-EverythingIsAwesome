@@ -139,10 +139,10 @@ void setup()
 
   // We setup all our sensors up in this bitch.
 
-  attachInterrupt(ENCODER_RIGHT_A, updateEncoder_R, CHANGE); 
-  attachInterrupt(ENCODER_RIGHT_B, updateEncoder_R, CHANGE); 
-  attachInterrupt(ENCODER_LEFT_A, updateEncoder_L, CHANGE);
-  attachInterrupt(ENCODER_LEFT_B, updateEncoder_L, CHANGE);
+  attachInterrupt(0, updateEncoder_R, CHANGE); 
+  attachInterrupt(1, updateEncoder_R, CHANGE); 
+  attachInterrupt(4, updateEncoder_L, CHANGE);
+  attachInterrupt(5, updateEncoder_L, CHANGE);
 }
 
 ISR(TIMER1_COMPA_vect)
