@@ -4,7 +4,6 @@
 #include "MsTimer2.h"
 #include <Servo.h>
 #include "Robot.h"
-#include "Accelerometer.h"
 
 #define START digitalRead(START_BUTTON)
 
