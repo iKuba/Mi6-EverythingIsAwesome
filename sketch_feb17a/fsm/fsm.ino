@@ -51,22 +51,28 @@ void goToRamp()
 
 void goUpRamp()
 {
-  // go up the ramp
-  //Check 9DOF to check angle
-    //if not back away and re enter ramp
-    //if yes
-      //Check Accelerametor on guides to see if guides are down
-        //if not turn robot until both guide accelerameter indicate it is vertical
-        //if it is procedd witj turning prop on and ramping of prop speed
-        // once speed reached proceed with climbing of ramp
-          //check if guides are moving up 
-          // if it is left
-            // turn left slightly util it is no longer up
-            //should see what kind of correction is needed to be straight on the ramp
-          // if it is right 
-            // turn right slightly until it is no longer up
-            //should see what kind of correction is needed to be straight on the ramp
-          // if not procceed forward
+  while (!r.guardDown(LEFT) || !r.guardDown(RIGHT))
+  {
+    if (!r.guardDown(LEFT))
+    {
+      r.setVelocity(.5, RIGHT);
+    }
+    else
+    {
+      r.setVelocity(.5, LEFT);
+    }
+  }
+  r.ndof.refresh();
+  while (r.ndof.gyro_.y > 10)
+  {
+    r.ndof.refresh();
+    r.setVelocity(.5);
+  }
+  r.propOn(true);
+  while(r.ndof.gyro_.y < 10)
+    r.drive();
+  r.propOn(false);
+  r.setVelocity(0);
 }
 
 void correctTraj()
@@ -76,13 +82,10 @@ void correctTraj()
 
 void goDownRamp()
 {
-  //this state will happen realy fast since we are sliding down ramp fast
-  // go down the ramp
-  //Check 9DOF to check angle
-    //if not keep moving forward until correct angle
-    //if yes
-    //drive in reverse and stop prop immediately
-    // option to check guide accelerameter to ensure still on ramp.
+  while(r.ndof.gyro_.y > -10)
+  {
+    r.setVelocity(.1);
+  }
 }
 
 void search()

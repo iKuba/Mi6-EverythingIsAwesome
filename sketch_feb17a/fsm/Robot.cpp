@@ -19,6 +19,8 @@ Motor Robot::mRight = Motor(MOTOR_RIGHT_DIR_A, MOTOR_RIGHT_DIR_B, MOTOR_RIGHT_SP
 Accelerometer Robot::accLeft = Accelerometer(ACCEL_LEFT_GUIDE);
 Accelerometer Robot::accRight = Accelerometer(ACCEL_RIGHT_GUIDE);
 
+Servo Robot::prop_;
+
 Robot::Robot() : velocityRight_(0), velocityLeft_(0), brush_(0), propSpeed_(1000){}
 
 void Robot::setup()
