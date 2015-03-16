@@ -10,10 +10,7 @@ Accelerometer::Accelerometer(int inputPin) :
   pinMode(input_pin_, INPUT);
 }
 
-bool Accelerometer::getPosition()
+int Accelerometer::getPosition()
 {
-	delay(10);
-	position = analogRead(input_pin_);
-	position = data-505;
-	return position;
+	return analogRead(input_pin_)-505;
 }

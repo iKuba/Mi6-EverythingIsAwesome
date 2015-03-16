@@ -7,20 +7,6 @@
 #include "Wire.h"
 #include "MsTimer2.h"
 #include "Accelerometer.h"
-#include "utility/FatStructs.h"
-#include "utility/Sd2Card.h"
-#include "utility/Sd2PinMap.h"
-#include "utility/SdFat.h"
-#include "utility/SdFatUtil.h"
-#include "utility/SdFatmainpage.h"
-#include "utility/SdInfo.h"
-#include "SD.h"
-#include "DS1307RTC/DS1307RTC.h"
-#include "FSM/FiniteStateMachine.h"
-#include "MsTimer2/MsTimer2.h"
-#include "Quad/Quad.h"
-#include "Time/Time.h"
-#include "TimeAlarms/TimeAlarms.h"
 
 
 
