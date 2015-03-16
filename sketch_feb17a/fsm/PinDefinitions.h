@@ -41,17 +41,17 @@
 
 //9DOF Sensor
 #define DOF9_SERIAL_SCL 21 //i2c scl pin
-#define DOF9_SERIAL_SDA 20 //i2c sda pin
+#define DOF9_SERIAL_SDA 20 //i2c sda pin //Also Kill Switch Interrupt
 
 //Accel Sensor
-#define ACCEL_LEFT_GUIDE 5 //Analogue Pins
-#define ACCEL_LEFT_GUIDE 6 //Analogue Pins
+#define ACCEL_LEFT_GUIDE 5 //Analog Pins
+#define ACCEL_RIGHT_GUIDE 6 //Analog Pins
 
 // IR
-#define IR_SIGNAL 3 //Analogue Pins
+#define IR_SIGNAL 3 //Analog Pins
 
 // Flex Lego Sensor
-#define FLEX_SENSOR 4 //Analogue Pins
+#define FLEX_SENSOR 4 //Analog Pins
 
-#define KILL_SWITCH 22
-#define START_BUTTON 24
+#define KILL_SWITCH 20 //Inturrupt
+#define START_BUTTON 30 //Incase we need it
