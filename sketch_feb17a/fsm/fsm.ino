@@ -160,25 +160,6 @@ State Chill = State(chill);
 FSM snr = FSM(Idle); // search and rescue state machine
 // End states
 
-<<<<<<< HEAD
-=======
-// Begin Sensors
-UltrasonicSensor us1 = UltrasonicSensor(SONAR_TRIG_LEFT,SONAR_ECHO_LEFT);
-UltrasonicSensor us2 = UltrasonicSensor(SONAR_TRIG_RIGHT,SONAR_ECHO_RIGHT);
-UltrasonicSensor us3 = UltrasonicSensor(SONAR_TRIG_CENTER,SONAR_ECHO_CENTER);
-
-LimitSwitch ls1 = LimitSwitch(LIMIT_SWITCH_LEFT);
-LimitSwitch ls2 = LimitSwitch(LIMIT_SWITCH_RIGHT);
-LimitSwitch ls3 = LimitSwitch(LIMIT_SWITCH_MID);
-
-Accelerometer acc_left = Accelerometer(ACCEL_LEFT_GUIDE);
-Accelerometer acc_right = Accelerometer(ACCEL_RIGHT_GUIDE);
-
-NineDOF ndof = NineDOF();
-
-// End Sensors
-
->>>>>>> accelerometer
 // Begin calculations
 
 bool calculateNav = false;
