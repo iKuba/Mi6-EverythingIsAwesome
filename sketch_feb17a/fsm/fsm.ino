@@ -21,18 +21,32 @@ void calibrate()
 {
   while(r.getDistance(LEFT) != r.getDistance(RIGHT))
   {
-     //rotate in appropriate direction
+     if(r.getDistance(LEFT)>r.getDistance(RIGHT))
+       r.rotate(.5);
+     else
+       r.rotate(-.5);
   }
 }
 
 void goToRamp()
 {
-  //rotate 90 degress
-  // drive forward
-  // when we see a pitch value > 0 we will be off the ramp we will therefore again
-  // make sure we're perpendicular to the wall
-  // drive forward to distance X stop and rotate -90 degrees
-  // drive forward until the ramp is engaged (we will again see a change in yaw)
+  if(!r.haveLegoMan())
+  {
+    r.rotate(90.0);
+    // This means we are on the platform
+    while(r.ndof.gyro_.y == 0)
+      r.setVelocity(.5);
+    // This means we are rolling down the ramp we should have a slow change in pitch
+    while(r.ndof.gyro_.y != 0)
+      r.setVelocity(.5);
+    calibrate();
+    while(r.getDistance(CENTER) > 5);
+      r.setVelocity(.5);
+    r.rotate(-90.0);
+    while(r.ndof.gyro_.y == 0)
+      r.setVelocity(.5);
+    // drive forward until the ramp is engaged (we will again see a change in yaw)
+  }
 }
 
 void goUpRamp()
