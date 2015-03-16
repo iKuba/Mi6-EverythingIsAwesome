@@ -16,12 +16,20 @@ Motor Robot::mBrush = Motor(MOTOR_BRUSH_SPEED);
 Motor Robot::mLeft = Motor(MOTOR_LEFT_DIR_A, MOTOR_LEFT_DIR_B, MOTOR_LEFT_SPEED);
 Motor Robot::mRight = Motor(MOTOR_RIGHT_DIR_A, MOTOR_RIGHT_DIR_B, MOTOR_RIGHT_SPEED);
 
-Robot::Robot() : velocityRight_(0), velocityLeft_(0), brush_(0), propSpeed_(1000)
-{}
+Robot::Robot() : velocityRight_(0), velocityLeft_(0), brush_(0), propSpeed_(1000){}
 
 void Robot::setup()
 {
   ndof.setup();
+}
+
+bool Robot::haveLegoMan(){
+  return legoMan_;
+}
+
+bool Robot::checkForLegoMan()
+{
+  // check things if we have lego man set legoMan_
 }
 
 void Robot::drive()

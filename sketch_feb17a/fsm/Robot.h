@@ -31,7 +31,10 @@ public:
   void setBrush(bool brush);
   void propOn(bool on);
   void drive();
+  bool haveLegoMan();
+  bool checkForLegoMan();
 
+  static NineDOF ndof;
 protected:
 
 private:
@@ -39,8 +42,6 @@ private:
   static UltrasonicSensor usRight, usCenter, usLeft;
 
 	static LimitSwitch lsRight, lsCenter, lsLeft;
-
-  static NineDOF ndof;
 
 	static Servo prop_;
 	// End Sensors
@@ -50,7 +51,7 @@ private:
 
 	float velocityLeft_, velocityRight_;
 	int propSpeed_;
-	bool brush_;
+	bool brush_, legoMan_;
 
 	// end motors
 };
