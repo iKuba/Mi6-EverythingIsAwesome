@@ -10,7 +10,7 @@ FlexSensor::FlexSensor(int inputPin) :
   pinMode(input_pin_, INPUT);
 }
 
-bool FlexSensor::query()
+int FlexSensor::query()
 {
 	int flexSensorReading = analogRead(input_pin_);
 
@@ -18,10 +18,11 @@ bool FlexSensor::query()
 	//Using map(), I converted those values to a 0-100 range
 	int flex0to100 = map(flexSensorReading, 782, 920, 0, 100);
 
-	if (flex0to100 > 10) {
-		return 1;
-	}
-	else {
-		return 0;
-	}
+	// if (flex0to100 > 10) {
+	// 	return 1;
+	// }
+	// else {
+	// 	return 0;
+	// }
+	return flexSensorReading;
 }

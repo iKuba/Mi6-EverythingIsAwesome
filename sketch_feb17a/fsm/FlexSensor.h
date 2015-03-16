@@ -18,7 +18,7 @@ public:
   /**
    * Check if the Lego man is in the sled.
    */
-   bool query();
+   int query();
 
 private:
 	int input_pin_;
