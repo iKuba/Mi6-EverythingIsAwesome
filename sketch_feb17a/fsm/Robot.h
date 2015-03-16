@@ -12,6 +12,7 @@
 #include "LimitSwitch.h"
 #include "NineDOF.h"
 #include "Motor.h"
+#include "Accelerometer.h"
 #include <Wire.h>
 #include <Servo.h>
 
@@ -33,6 +34,7 @@ public:
   void drive();
   bool haveLegoMan();
   bool checkForLegoMan();
+  bool guardDown(POSITION pos);
 
   static NineDOF ndof;
 protected:
@@ -44,6 +46,8 @@ private:
 	static LimitSwitch lsRight, lsCenter, lsLeft;
 
 	static Servo prop_;
+
+  static Accelerometer accLeft, accRight;
 	// End Sensors
 
 	// motors

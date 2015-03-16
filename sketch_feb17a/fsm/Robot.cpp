@@ -16,6 +16,9 @@ Motor Robot::mBrush = Motor(MOTOR_BRUSH_SPEED);
 Motor Robot::mLeft = Motor(MOTOR_LEFT_DIR_A, MOTOR_LEFT_DIR_B, MOTOR_LEFT_SPEED);
 Motor Robot::mRight = Motor(MOTOR_RIGHT_DIR_A, MOTOR_RIGHT_DIR_B, MOTOR_RIGHT_SPEED);
 
+Accelerometer Robot::accLeft = Accelerometer(ACCEL_LEFT_GUIDE);
+Accelerometer Robot::accRight = Accelerometer(ACCEL_RIGHT_GUIDE);
+
 Robot::Robot() : velocityRight_(0), velocityLeft_(0), brush_(0), propSpeed_(1000){}
 
 void Robot::setup()
@@ -30,6 +33,23 @@ bool Robot::haveLegoMan(){
 bool Robot::checkForLegoMan()
 {
   // check things if we have lego man set legoMan_
+}
+
+bool Robot::guardDown(POSITION pos)
+{
+  if (pos == LEFT)
+  {
+    return accLeft.getPosition() > 0;
+  }
+  else if (pos == RIGHT)
+  {
+    return accRight.getPosition() > 0;
+  }
+  else
+  {
+    Serial.println("No middle accel...");
+    return false;
+  }
 }
 
 void Robot::drive()
