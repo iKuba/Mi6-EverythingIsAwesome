@@ -41,10 +41,10 @@
 #define ENCODER_LEFT_B 47
 
 // IR
-#define IR_SIGNAL 3 //Analogue Pins
+#define IR_SIGNAL 4 //Analogue Pins
 
 // flex Lego Sensor
-#define FLEX_SENSOR 4 //Analogue Pins
+// #define FLEX_SENSOR 4 //Analogue Pins
 
 #define KILL_SWITCH 22
 #define START_BUTTON 24
