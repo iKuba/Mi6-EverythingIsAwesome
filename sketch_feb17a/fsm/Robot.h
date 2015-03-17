@@ -17,6 +17,10 @@
 #include <Servo.h>
 
 enum POSITION {CENTER, LEFT, RIGHT};
+
+struct space {
+  float x, y, z, heading;
+};
 class Robot
 {
 public:
@@ -35,8 +39,10 @@ public:
   bool haveLegoMan();
   bool checkForLegoMan();
   bool guardDown(POSITION pos);
+  space nav;
 
   static NineDOF ndof;
+
 protected:
 
 private:
