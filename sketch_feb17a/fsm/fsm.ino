@@ -26,6 +26,11 @@ void calibrate()
      else
        r.rotate(-.5);
   }
+  r.ndof.refresh();
+  // for now we'll use center, since we don't know the offset of our ultrasonics
+  r.nav.x = r.getDistance(CENTER);
+  // just need this here for reasons while I wait on ndof heading code
+  r.nav.heading = 0;
 }
 
 void goToRamp()
@@ -39,7 +44,14 @@ void goToRamp()
     // This means we are rolling down the ramp we should have a slow change in pitch
     while(r.ndof.gyro_.y != 0)
       r.setVelocity(.5);
-    calibrate();
+    while(r.getDistance(LEFT) != r.getDistance(RIGHT))
+    {
+       if(r.getDistance(LEFT)>r.getDistance(RIGHT))
+         r.rotate(.5);
+       else
+         r.rotate(-.5);
+    }
+    r.nav.y = r.getDistance(CENTER) + 150;
     while(r.getDistance(CENTER) > 5);
       r.setVelocity(.5);
     r.rotate(-90.0);
@@ -77,7 +89,7 @@ void goUpRamp()
 
 void correctTraj()
 {
-  // correct ramp trajectory
+  // no longer needed
 }
 
 void goDownRamp()
@@ -90,45 +102,38 @@ void goDownRamp()
 
 void search()
 { 
-  // search for the lego man
-  // drive arround in determined path via path planning using ultrasonics
-  // use ultrasound and encoders to track where we are
-  // once path have been determined check limit switchs to see if hit base
-  // limit siwthc adjsut logic
-
-    //if all three hit flush with base 
-    // climb base mobe to next state
-
-    //if left limit hit car need to turn to the right until all three hit
-    // could be 3 possible situations
-      // 1 - car is aligned to base but only the left side 
-      // 1 - and care need to shift to the left
-      // 2 - car is not aligned and at a angle such that the left side of the car is on base and right is not
-      // 2 - we can check 9dof sensor to see orientation and adjust by turn left (Different from shifting right)
-      // 2 - until all three limit is triggered and car is angled
-      // 3 - if only left and right hit we are at corner then back off move to one direction and try again
-      // 3 - then back off a certain distance
-      // 3 - turn right or left 45 degrees
-      // 3 - move forward a known distance
-      // 3 - turn 90 degrees the opposite of what did previously
-      // 3 - move forward to see if all three limit will trigger and repeat.
-
-    //in right limit hit car need to turn to the left until all three hit
-      // same with only left
-
-    // if left and center or right and center hit
-      // if left and center car need to be shifted to the left/
-        // plan path via back off a certain known distance
-        // turn 90 degree left
-        // move a certain known distance
-        // turn right 90 degree right
-        // try again
-
+  int t = millis();
+  int dPrevL, dPrevR;
+  // We first move 10 cm from the ramp.
+  while (millis() < t + 1000)
+    r.setVelocity(.1);
+  
+  dPrevL = r.getDistance(LEFT);
+  dPrevR = r.getDistance(RIGHT);
+  for (int x = 1; x < 180; x++)
+  {
+    r.rotate(-1);
+    if (abs(r.getDistance(LEFT) - dPrevL) > 20)
+    {
+      while(abs(r.getDistance(RIGHT) - dPrevR) < 20)
+        r.rotate(-1);
+      // now drive, maybe?
+    }
+    if (abs(r.getDistance(RIGHT) - dPrevR) > 20)
+    {
+      // rotate back to try and find the base with the other ultra sonic,
+      // rotate half way back. DRIVE
+    }
+    dPrevL = r.getDistance(LEFT);
+    dPrevR = r.getDistance(RIGHT);
+  }
 }
 
 void goToLegoMan()
 {
-  // go to the lego man
+  r.setVelocity(.3);
+  r.setBrush(true);
+  // spin brush until we have the lego man
 }
 
 void pickUp()
@@ -138,7 +143,17 @@ void pickUp()
 
 void goHome()
 {
-  // returning to home base
+  int t = millis();
+  while (millis() < t + 1000)
+  {
+    m.setVelocity(.1);
+  }
+  r.rotate(90);
+  t = millis();
+  while (millis() < t + 1000)
+  {
+    m.setVelocity(.3);
+  }
 }
 
 void chill()
