@@ -15,7 +15,7 @@ public:
    */
    Encoder(int pinA, int pinB);
 
-  int direction;
+  bool direction;
   int count;
   volatile int lastEncoded;
   double speed;

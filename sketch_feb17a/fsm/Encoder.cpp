@@ -31,7 +31,7 @@ void Encoder::calculateSpeed()
     }
      else 
     {
-      speed = 6;
+      speed = 0;
     } 
 
   }

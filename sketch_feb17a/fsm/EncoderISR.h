@@ -14,6 +14,7 @@ Encoder e_right = Encoder(ENCODER_RIGHT_A, ENCODER_RIGHT_B);
 
 //Encoder 1 = RIGHT ENCODER
 void updateEncoder_R(){
+  // Serial.println("Right Encoder");
   e_right.count++;
   int MSB = digitalRead(ENCODER_RIGHT_A); //MSB = most significant bit //this what does this do??
   int LSB = digitalRead(ENCODER_RIGHT_B); //LSB = least significant bit
@@ -23,12 +24,12 @@ void updateEncoder_R(){
 
   //CW direction
   if(sum == 0b1101 || sum == 0b0100 || sum == 0b0010 || sum == 0b1011) {
-    e_right.direction = 1;
+    e_right.direction = 0;
   }
 
   //CCW direction
   if(sum == 0b1110 || sum == 0b0111 || sum == 0b0001 || sum == 0b1000) {
-    e_right.direction = 2;
+    e_right.direction = 1;
   }
 
   e_right.calculateSpeed();
@@ -37,6 +38,7 @@ void updateEncoder_R(){
 
 //Encoder 2 = LEFT ENCODER
 void updateEncoder_L(){
+  // Serial.println("Left Encoder");
   e_left.count++;
   int MSB = digitalRead(ENCODER_LEFT_A); //MSB = most significant bit
   int LSB = digitalRead(ENCODER_LEFT_B); //LSB = least significant bit
@@ -46,12 +48,12 @@ void updateEncoder_L(){
 
   //CW direction
   if(sum == 0b1101 || sum == 0b0100 || sum == 0b0010 || sum == 0b1011) {
-    e_left.direction = 1;
+    e_left.direction = 0;
   }
 
   //CCW direction
   if(sum == 0b1110 || sum == 0b0111 || sum == 0b0001 || sum == 0b1000) {
-    e_left.direction = 2;
+    e_left.direction = 1;
   }
   e_left.calculateSpeed();
   e_left.lastEncoded = encoded;

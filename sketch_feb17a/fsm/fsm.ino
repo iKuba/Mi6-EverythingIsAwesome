@@ -104,6 +104,12 @@ LimitSwitch ls_left = LimitSwitch(LIMIT_SWITCH_LEFT);
 LimitSwitch ls_mid = LimitSwitch(LIMIT_SWITCH_MID);
 LimitSwitch ls_right = LimitSwitch(LIMIT_SWITCH_RIGHT);
 
+unsigned long timer;
+double avg_speed;
+double prev_speed;
+int PWM;
+bool onceFlag;
+
 // Begin calculations
 
 bool calculateNav = false;
@@ -144,6 +150,12 @@ void setup()
   attachInterrupt(1, updateEncoder_R, CHANGE); 
   attachInterrupt(4, updateEncoder_L, CHANGE);
   attachInterrupt(5, updateEncoder_L, CHANGE);
+
+  prev_speed = 0;
+  avg_speed = 0;
+  PWM = 0;
+  timer = millis();
+  onceFlag = false;
 }
 
 ISR(TIMER1_COMPA_vect)
@@ -161,48 +173,87 @@ void loop()
   * snr.update();
   */
 
-  //Running Motors
+  //RUNNING MOTORS
   mLeft.setVelocity(255, 1);
   mRight.setVelocity(255, 1);
 
-  //Testing Encoders
-  Serial.print("Right Encoder: ");
-  Serial.println(e_right.speed,4);
-  Serial.print("Left Encoder: ");
-  Serial.println(e_left.speed,4);
-  Serial.println();
+  //TESTING ENCODERS
+  // Serial.print("Right Encoder: ");
+  // Serial.println(e_right.speed,4);
+  // Serial.print("Left Encoder: ");
+  // Serial.println(e_left.speed,4);
+  // Serial.println();
 
-  //Testing Limit Switches
-  Serial.print("Left Limit Switch: ");
+  //MOTOR CHARACTERIZATION
+  // if(!onceFlag)
+  // {
+  //   for (int i=0; i <= 255; i++) 
+  //   {
+  //     mLeft.setVelocity(i, 1);
+  //     while (i == PWM) {
+  //       // Serial.println(timer);
+  //       timer = millis();
+  //       double speed = e_left.speed;
+  //       avg_speed = (speed+prev_speed)/2;
+  //       prev_speed = avg_speed;
+  //       if (timer%1000 == 0) {
+  //         PWM ++;
+  //       }
+  //     // Serial.print("Test");
+  //   }
+  //   // Serial.print("PWM: ");
+  //   Serial.print(PWM);
+  //   Serial.print(", ");
+  //   Serial.println(avg_speed);
+  // //   // Serial.println();
+  //   } 
+  //   onceFlag = true;
+  // }
+
+  //  mLeft.setVelocity(0, 1);
+  //  delay(10000);
+
+  // timer = millis();
+  // if (timer%1000 == 0) {
+  //   Serial.println("1 second has passed.");
+  // }
+
+  //LIMIT SWITCH TESTING
+  // Serial.print("Left Limit Switch: ");
   if (ls_left.query())
   {
-    Serial.println("HIT");
+    Serial.print("HIT        ");
   }
   else
   {
-    Serial.println("NOT HIT");
+    Serial.print("NOT HIT       ");
   }
 
-  Serial.print("Right Limit Switch: ");
-  if (ls_right.query())
-  {
-    Serial.println("HIT");
-  }
-  else
-  {
-    Serial.println("NOT HIT");
-  }
-
-  Serial.print("Middle Limit Switch: ");
+    // Serial.print("Middle Limit Switch: ");
   if (ls_mid.query())
   {
-    Serial.println("HIT");
+    Serial.print("HIT       ");
   }
   else
   {
-    Serial.println("NOT HIT");
+    Serial.print("NOT HIT     ");
   }
 
-  delay(1000);
+  // Serial.print("Right Limit Switch: ");
+  if (ls_right.query())
+  {
+    Serial.print("HIT        ");
+  }
+  else
+  {
+    Serial.print("NOT HIT       ");
+  }
+  Serial.println();
+
+
+  //ULTRASONIC SWEEP
+
+
+  delay(250);
 }
 
