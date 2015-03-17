@@ -3,6 +3,8 @@
  */
 #include "Robot.h"
 
+ #define PWM(vel) 1000*vel+60.8
+
 UltrasonicSensor Robot::usRight = UltrasonicSensor(SONAR_TRIG_RIGHT,SONAR_ECHO_RIGHT);
 UltrasonicSensor Robot::usCenter = UltrasonicSensor(SONAR_TRIG_BACK,SONAR_ECHO_BACK);
 UltrasonicSensor Robot::usLeft = UltrasonicSensor(SONAR_TRIG_LEFT,SONAR_ECHO_LEFT);
@@ -56,15 +58,16 @@ bool Robot::guardDown(POSITION pos)
 
 void Robot::drive()
 {
-  mLeft.setVelocity(velocityLeft_, LEFT);
-  mRight.setVelocity(velocityRight_, RIGHT);
+  mLeft.setVelocity(abs(velocityLeft_), velocityLeft_ >= 0);
+  mRight.setVelocity(velocityRight_, velocityRight_ >= 0);
   mBrush.setVelocity(brush_?100:0);
   prop_.writeMicroseconds(propSpeed_);
 }
 
 void Robot::setVelocity(float vel)
 {
-  velocityLeft_ = velocityRight_ = vel;
+  velocityLeft_ = velocityRight_ = PWM(vel);
+  drive();
 }
 
 void Robot::rotate(float angle)
@@ -97,16 +100,17 @@ void Robot::setVelocity(float vel, POSITION pos)
 {
   if (pos == LEFT)
   {
-    velocityLeft_ = vel;
+    velocityLeft_ = PWM(vel);
   }
   else if (pos == RIGHT)
   {
-    velocityRight_ = vel;
+    velocityRight_ = PWM(vel);
   }
   else
   {
     Serial.println("This is retarded don't tell me center");
   }
+  drive();
 }
 
 void Robot::setBrush(bool brush)
