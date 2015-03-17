@@ -65,7 +65,7 @@ void chill()
 {
   // chill at base
 }
-
+int x =0;
 // Begin states
 State Start = State(start);
 State Calibrate = State(calibrate);
@@ -82,17 +82,17 @@ State Chill = State(chill);
 FSM snr = FSM(Start); // search and rescue state machine
 // End states
 
-// Begin Sensors
-UltrasonicSensor us1 = UltrasonicSensor(SONAR_TRIG1,SONAR_ECHO1);
-UltrasonicSensor us2 = UltrasonicSensor(SONAR_TRIG2,SONAR_ECHO2);
-UltrasonicSensor us3 = UltrasonicSensor(SONAR_TRIG3,SONAR_ECHO3);
+// // Begin Sensors
+// UltrasonicSensor us1 = UltrasonicSensor(SONAR_TRIG1,SONAR_ECHO1);
+// UltrasonicSensor us2 = UltrasonicSensor(SONAR_TRIG2,SONAR_ECHO2);
+// UltrasonicSensor us3 = UltrasonicSensor(SONAR_TRIG3,SONAR_ECHO3);
 
-LimitSwitch ls1 = LimitSwitch(LIMIT_SWITCH_1);
-LimitSwitch ls2 = LimitSwitch(LIMIT_SWITCH_2);
-LimitSwitch ls3 = LimitSwitch(LIMIT_SWITCH_3);
+// LimitSwitch ls1 = LimitSwitch(LIMIT_SWITCH_1);
+// LimitSwitch ls2 = LimitSwitch(LIMIT_SWITCH_2);
+// LimitSwitch ls3 = LimitSwitch(LIMIT_SWITCH_3);
 
-TEMT6000 reciever_left = TEMT6000(RECEIVER_LEFT);
-TEMT6000 reciever_right = TEMT6000(RECEIVER_RIGHT);
+// TEMT6000 reciever_left = TEMT6000(RECEIVER_LEFT);
+// TEMT6000 reciever_right = TEMT6000(RECEIVER_RIGHT);
 
 //NineDOF ndof = NineDOF();
 
@@ -100,8 +100,8 @@ TEMT6000 reciever_right = TEMT6000(RECEIVER_RIGHT);
 
 Servo prop; 
 
-Motor mLeft = Motor(3,4,2);
-Motor mRight = Motor(5,6,7);
+Motor mLeft = Motor(6,5,4);
+Motor mRight = Motor(7,8,20);
 
 bool runMotors = true;
 int value = 1000;
@@ -185,6 +185,7 @@ void loop()
   * snr.update();
   */
   //Serial.println(s2.query());
+  Serial.println(x++);
   prop.writeMicroseconds(value);
   // Serial.println(runMotors);
  
