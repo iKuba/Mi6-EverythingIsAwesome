@@ -14,7 +14,7 @@ void idle()
   // Do something like wait for nudge or button clicked
   // Wait for button push #define START_BUTTON 24
   // if(START_BUTTON == pressed)
-  // turn robot on i.e exit this condition and proceed
+  // turn robot on i.e exit this co ndition and proceed
 }
 
 void calibrate()
@@ -146,13 +146,13 @@ void goHome()
   int t = millis();
   while (millis() < t + 1000)
   {
-    m.setVelocity(.1);
+    r.setVelocity(.1);
   }
   r.rotate(90);
   t = millis();
   while (millis() < t + 1000)
   {
-    m.setVelocity(.3);
+    r.setVelocity(.3);
   }
 }
 
