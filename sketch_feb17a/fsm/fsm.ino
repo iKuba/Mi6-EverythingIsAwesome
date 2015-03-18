@@ -115,12 +115,12 @@ void setup()
 {
   Serial.begin (9600);
   Wire.begin();
-  ndof.setup();
+  // ndof.setup();
 
-  attachInterrupt(4, thing, FALLING);
-  MsTimer2::set(500, timerInterrupt);
+  // attachInterrupt(4, thing, FALLING);
+  // MsTimer2::set(500, timerInterrupt);
 
-  attachInterrupt(2, killSwitch, CHANGE);
+  // attachInterrupt(2, killSwitch, CHANGE);
 
   // We setup all our sensors up in this bitch.
 }
@@ -141,6 +141,8 @@ void timerInterrupt()
     calculateNav = true;
 }
 
+bool spin = false;
+
 void loop()
 {
   /**
@@ -151,24 +153,23 @@ void loop()
   * snr.update();
   */
 
-  mLeft.setVelocity(255, 1);
-  mRight.setVelocity(255, 1);
+    
+  if (spin)
+  {
+    mLeft.setVelocity(130, 0);
+    mRight.setVelocity(125, 1);
+    Serial.println(String((int)us_left.query()) + ", " + String((int)us_cen.query()) + ", " + String((int)us_right.query()));
 
-  Serial.print("Left Limit Switch: ");
-  Serial.println(us_left.query());
-  Serial.print("Right Limit Switch: ");
-  Serial.println(us_right.query());
-  Serial.print("Middle Limit Switch: ");
-  Serial.println(us_cen.query());
-
-  Serial.print("Left Ultrasonic: ");
-  Serial.println(us_left.query());
-  Serial.print("Right Ultrasonic: ");
-  Serial.println(us_right.query());
-  Serial.print("Center Ultrasonic: ");
-  Serial.println(us_cen.query());
-  Serial.println();
-
+  }
+  else
+  {
+    mLeft.setVelocity(0, 1);
+    mRight.setVelocity(0, 0);
+  }
+  if (Serial.available())
+  {
+    spin = Serial.parseInt();
+  }
   // delay(100);
 
   //Serial.println(s2.query());
