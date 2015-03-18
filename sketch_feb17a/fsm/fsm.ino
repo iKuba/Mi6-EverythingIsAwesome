@@ -65,7 +65,7 @@ void chill()
 {
   // chill at base
 }
-int x =0;
+
 // Begin states
 State Start = State(start);
 State Calibrate = State(calibrate);
@@ -101,10 +101,10 @@ FSM snr = FSM(Start); // search and rescue state machine
 Servo prop; 
 
 Motor mLeft = Motor(6,5,4);
-Motor mRight = Motor(7,8,20);
+Motor mRight = Motor(7,8,9);
 
 bool runMotors = true;
-int value = 1000;
+int value = 40;
 int motorSpeed = 0;
 int val = 0;
 
@@ -121,7 +121,8 @@ void doCalculations()
 
 void setup()
 {
-  prop.attach(9);    
+  prop.attach(12);
+  prop.write(value); 
   Serial.begin (9600);
   //Wire.begin();
   //ndof.setup();
@@ -144,7 +145,7 @@ void setup()
   // sei();
 
   attachInterrupt(2, killSwitch, CHANGE);
-  attachInterrupt(3, increase, CHANGE);
+  attachInterrupt(3, killSwitch, CHANGE);
   MsTimer2::set(500, flash); // 500ms period
   MsTimer2::start();
 
@@ -159,12 +160,13 @@ void flash()
 void killSwitch()
 {
   runMotors = false;
-  value = 1000;
+  value = 40;
+  prop.write(value);
 }
 
 void increase()
 {
-  value+=100;
+  value+=10;
   runMotors = true;
 }
 
@@ -185,18 +187,21 @@ void loop()
   * snr.update();
   */
   //Serial.println(s2.query());
-  Serial.println(x++);
-  prop.writeMicroseconds(value);
   // Serial.println(runMotors);
  
   if(Serial.available()) 
   {
     val = Serial.parseInt();
-    if (val > 900)
-      value = val;
+    if (val >= 1000)
+    {  
+      value = val - 1000;
+      prop.write(value);
+    }
     else
       motorSpeed = val;
   }
+  mLeft.setVelocity(255, 0);
+    mRight.setVelocity(255, 0);
 
   if (runMotors)
   {
