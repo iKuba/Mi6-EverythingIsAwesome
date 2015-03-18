@@ -7,17 +7,6 @@
 
 NineDOF::NineDOF() : I2C()
 {
-    gyro_.offx = -6;
-    gyro_.offy = 75;
-    gyro_.offz = 15;
-
-    comp_.offx = 0;
-    comp_.offy = 0;
-    comp_.offz = 0;
-
-    acel_.offx = 3;
-    acel_.offy = 0;
-    acel_.offz = 2;
 }
 
 void NineDOF::setup()
@@ -38,25 +27,62 @@ void NineDOF::setup()
 void NineDOF::refresh()
 {
 	readFrom(GYRO_ADDR, GYRO_REG, 6);
-	build(&gyro_);
+	buildGyro();
 	readFrom(COMP_ADDR, COMP_REG, 6);
-	build(&comp_);
+	buildComp();
 	readFrom(ACEL_ADDR, ACEL_REG, 6);
 	buildAccel();
 }
 
-void NineDOF::build(Raw * value)
+void NineDOF::buildGyro()
 {
-  value->x = ((buffer_[0] <<8) | buffer_[1]) - value->offx;
-  value->y = ((buffer_[2] <<8) | buffer_[3]) - value->offy;
-  value->z = ((buffer_[4] <<8) | buffer_[5]) - value->offz;
+  gyro_.x = -1 * ((((int) buffer_[2]) << 8) | buffer_[3]);    // X axis (internal sensor -y axis)
+  gyro_.y = -1 * ((((int) buffer_[0]) << 8) | buffer_[1]);    // Y axis (internal sensor -x axis)
+  gyro_.z = -1 * ((((int) buffer_[4]) << 8) | buffer_[5]);    // Z axis (internal sensor -z axis)
+}
+
+void NineDOF::buildComp()
+{
+  comp_.x = (((int) buffer_[0]) << 8) | buffer_[1];         // X axis (internal sensor x axis)
+  comp_.y = -1 * ((((int) buffer_[4]) << 8) | buffer_[5]);  // Y axis (internal sensor -y axis)
+  comp_.z = -1 * ((((int) buffer_[2]) << 8) | buffer_[3]);  // Z axis (internal sensor -z axis)
+  comp_.x = (comp_.x - MAGN_X_OFFSET) * MAGN_X_SCALE;
+  comp_.y = (comp_.y - MAGN_Y_OFFSET) * MAGN_Y_SCALE;
+  comp_.z = (comp_.z - MAGN_Z_OFFSET) * MAGN_Z_SCALE;
 }
 
 void NineDOF::buildAccel()
 {
-  acel_.x = ((buffer_[1] <<8) | buffer_[0] - (acel_).offx) * ACEL_X_SCALE;
-  acel_.y = ((buffer_[3] <<8) | buffer_[2] - (acel_).offy) * ACEL_Y_SCALE;
-  acel_.z = ((buffer_[5] <<8) | buffer_[4] - (acel_).offz) * ACEL_Z_SCALE;
+  accel_.x = (((int) buffer_[3]) << 8) | buffer_[2];  // X axis (internal sensor y axis)
+  accel_.y = (((int) buffer_[1]) << 8) | buffer_[0];  // Y axis (internal sensor x axis)
+  accel_.z = (((int) buffer_[5]) << 8) | buffer_[4];  // Z axis (internal sensor z axis)
+  accel_.x = (accel_.x - ACCEL_X_OFFSET) * ACCEL_X_SCALE;
+  accel_.y = (accel_.y - ACCEL_Y_OFFSET) * ACCEL_Y_SCALE;
+  accel_.z = (accel_.z - ACCEL_Z_OFFSET) * ACCEL_Z_SCALE;
+}
+
+float NineDOF::heading()
+{
+  float mag_x;
+  float mag_y;
+  float cos_roll;
+  float sin_roll;
+  float cos_pitch;
+  float sin_pitch;
+
+  refresh();
+
+  cos_roll = cos(gyro_.x);
+  sin_roll = sin(gyro_.x);
+  cos_pitch = cos(gyro_.y);
+  sin_pitch = sin(gyro_.y);
+  
+  // Tilt compensated magnetic field X
+  mag_x = comp_.x * cos_pitch + comp_.y * sin_roll * sin_pitch + comp_.z * cos_roll * sin_pitch;
+  // Tilt compensated magnetic field Y
+  mag_y = comp_.y * cos_roll - comp_.z * sin_roll;
+  // Magnetic Heading
+  return atan2(-mag_y, mag_x);
 }
 
 
