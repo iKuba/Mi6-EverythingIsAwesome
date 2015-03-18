@@ -17,12 +17,12 @@
 #define ACCEL_Z_MIN ((float) -262)
 #define ACCEL_Z_MAX ((float) 268)
 
-#define MAGN_X_MIN ((float) -600)
-#define MAGN_X_MAX ((float) 600)
-#define MAGN_Y_MIN ((float) -600)
-#define MAGN_Y_MAX ((float) 600)
-#define MAGN_Z_MIN ((float) -600)
-#define MAGN_Z_MAX ((float) 600)
+#define MAGN_X_MIN ((float) -812)
+#define MAGN_X_MAX ((float) 733)
+#define MAGN_Y_MIN ((float) -452)
+#define MAGN_Y_MAX ((float) 779)
+#define MAGN_Z_MIN ((float) -651)
+#define MAGN_Z_MAX ((float) 790)
 #define GRAVITY 256.0f
 
  // Sensor calibration scale and offset values
@@ -40,6 +40,9 @@
 #define MAGN_Y_SCALE (100.0f / (MAGN_Y_MAX - MAGN_Y_OFFSET))
 #define MAGN_Z_SCALE (100.0f / (MAGN_Z_MAX - MAGN_Z_OFFSET))
 
+#define GYRO_AVERAGE_OFFSET_X ((float) -82.73)
+#define GYRO_AVERAGE_OFFSET_Y ((float) 17.29)
+#define GYRO_AVERAGE_OFFSET_Z ((float) -13.01)
 
 // Gain for gyroscope (ITG-3200)
 #define GYRO_GAIN 0.06957 // Same gain on all axes

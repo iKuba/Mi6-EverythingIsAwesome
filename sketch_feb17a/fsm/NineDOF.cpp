@@ -36,9 +36,9 @@ void NineDOF::refresh()
 
 void NineDOF::buildGyro()
 {
-  gyro_.x = -1 * ((((int) buffer_[2]) << 8) | buffer_[3]);    // X axis (internal sensor -y axis)
-  gyro_.y = -1 * ((((int) buffer_[0]) << 8) | buffer_[1]);    // Y axis (internal sensor -x axis)
-  gyro_.z = -1 * ((((int) buffer_[4]) << 8) | buffer_[5]);    // Z axis (internal sensor -z axis)
+  gyro_.x = -1 * ((((int) buffer_[2]) << 8) | buffer_[3]) - GYRO_AVERAGE_OFFSET_X;    // X axis (internal sensor -y axis)
+  gyro_.y = -1 * ((((int) buffer_[0]) << 8) | buffer_[1]) - GYRO_AVERAGE_OFFSET_Y;    // Y axis (internal sensor -x axis)
+  gyro_.z = -1 * ((((int) buffer_[4]) << 8) | buffer_[5]) - GYRO_AVERAGE_OFFSET_Z;    // Z axis (internal sensor -z axis)
 }
 
 void NineDOF::buildComp()
@@ -63,26 +63,13 @@ void NineDOF::buildAccel()
 
 float NineDOF::heading()
 {
-  float mag_x;
-  float mag_y;
-  float cos_roll;
-  float sin_roll;
-  float cos_pitch;
-  float sin_pitch;
+  float heading = atan2(comp_.y, comp_.x);
 
-  refresh();
+  // Correct for when signs are reversed.
+  if(heading < 0) heading += 2*PI;
+  if(heading > 2*PI) heading -= 2*PI;
 
-  cos_roll = cos(gyro_.x);
-  sin_roll = sin(gyro_.x);
-  cos_pitch = cos(gyro_.y);
-  sin_pitch = sin(gyro_.y);
-  
-  // Tilt compensated magnetic field X
-  mag_x = comp_.x * cos_pitch + comp_.y * sin_roll * sin_pitch + comp_.z * cos_roll * sin_pitch;
-  // Tilt compensated magnetic field Y
-  mag_y = comp_.y * cos_roll - comp_.z * sin_roll;
-  // Magnetic Heading
-  return atan2(-mag_y, mag_x);
+  return heading * RAD_TO_DEG; //radians to degrees
 }
 
 

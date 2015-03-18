@@ -221,18 +221,20 @@ void loop()
   * 
   */
   //Serial.println(s2.query());
-  if (START)
-  {
-    snr.transitionTo(Calibrate);
-  }
-  else if(r.getDistance(LEFT) != r.getDistance(RIGHT))
-  {
-    snr.transitionTo(GoToRamp);
-  }
-  if(calculateNav)
-  {
-    doCalculations();
-  }
-  snr.update();
+  // if (START)
+  // {
+  //   snr.transitionTo(Calibrate);
+  // }
+  // else if(r.getDistance(LEFT) != r.getDistance(RIGHT))
+  // {
+  //   snr.transitionTo(GoToRamp);
+  // }
+  // if(calculateNav)
+  // {
+  //   doCalculations();
+  // }
+  // snr.update();
+  delay(1000);
+  Serial.println(r.ndof.heading());
 }
 
