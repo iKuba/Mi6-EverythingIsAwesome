@@ -84,10 +84,7 @@ State Chill = State(chill);*/
 // End states
 
 // Begin Sensors
-//UltrasonicSensor us1 = UltrasonicSensor(SONAR_TRIG1,SONAR_ECHO1);
-/*UltrasonicSensor us2 = UltrasonicSensor(SONAR_TRIG2,SONAR_ECHO2);
-UltrasonicSensor us3 = UltrasonicSensor(SONAR_TRIG3,SONAR_ECHO3);
-
+/*
 TEMT6000 reciever_left = TEMT6000(RECEIVER_LEFT);
 TEMT6000 reciever_right = TEMT6000(RECEIVER_RIGHT);
 
@@ -99,6 +96,9 @@ NineDOF ndof = NineDOF();*/
 Motor mRight = Motor(MOTOR_LEFT_DIR_A,MOTOR_LEFT_DIR_B,MOTOR_LEFT_ENABLE);
 Motor mLeft = Motor(MOTOR_RIGHT_DIR_A,MOTOR_RIGHT_DIR_B,MOTOR_RIGHT_ENABLE);
 
+UltrasonicSensor us_left = UltrasonicSensor(SONAR_TRIG_LEFT,SONAR_ECHO_LEFT);
+UltrasonicSensor us_cen = UltrasonicSensor(SONAR_TRIG_CENTER,SONAR_ECHO_CENTER);
+UltrasonicSensor us_right = UltrasonicSensor(SONAR_TRIG_RIGHT,SONAR_ECHO_RIGHT);
 
 LimitSwitch ls_left = LimitSwitch(LIMIT_SWITCH_LEFT);
 LimitSwitch ls_mid = LimitSwitch(LIMIT_SWITCH_MID);
@@ -156,6 +156,9 @@ void setup()
   PWM = 0;
   timer = millis();
   onceFlag = false;
+
+  pinMode(MOTOR_BRUSH_SPEED, OUTPUT);
+  digitalWrite(MOTOR_BRUSH_SPEED, HIGH);
 }
 
 ISR(TIMER1_COMPA_vect)
@@ -174,9 +177,9 @@ void loop()
   */
 
   //RUNNING MOTORS
-  mLeft.setVelocity(255, 1);
-  mRight.setVelocity(255, 1);
-
+  mLeft.setVelocity(0, 0);
+  mRight.setVelocity(0, 1);
+  // analogWrite(MOTOR_BRUSH_SPEED, 255);
   //TESTING ENCODERS
   // Serial.print("Right Encoder: ");
   // Serial.println(e_right.speed,4);
@@ -220,40 +223,44 @@ void loop()
 
   //LIMIT SWITCH TESTING
   // Serial.print("Left Limit Switch: ");
-  if (ls_left.query())
-  {
-    Serial.print("HIT        ");
-  }
-  else
-  {
-    Serial.print("NOT HIT       ");
-  }
+  // if (ls_left.query())
+  // {
+  //   Serial.print("L_HIT        ");
+  // }
+  // else
+  // {
+  //   Serial.print("      ");
+  // }
 
-    // Serial.print("Middle Limit Switch: ");
-  if (ls_mid.query())
-  {
-    Serial.print("HIT       ");
-  }
-  else
-  {
-    Serial.print("NOT HIT     ");
-  }
+  //   // Serial.print("Middle Limit Switch: ");
+  // if (ls_mid.query())
+  // {
+  //   Serial.print("HIT_M       ");
+  // }
+  // else
+  // {
+  //   Serial.print("    ");
+  // }
 
-  // Serial.print("Right Limit Switch: ");
-  if (ls_right.query())
-  {
-    Serial.print("HIT        ");
-  }
-  else
-  {
-    Serial.print("NOT HIT       ");
-  }
-  Serial.println();
+  // // Serial.print("Right Limit Switch: ");
+  // if (ls_right.query())
+  // {
+  //   Serial.print("HIT_R        ");
+  // }
+  // else
+  // {
+  //   Serial.print("      ");
+  // }
+  // Serial.println();
 
 
   //ULTRASONIC SWEEP
-
-
-  delay(250);
+  // mLeft.setVelocity(100, 1);  //Set motors to slowest speed
+  Serial.print(us_left.query());
+  Serial.print(",");
+  Serial.print(us_cen.query());
+  Serial.print(",");
+  Serial.println(us_right.query());
+  // delay(250);
 }
 

@@ -29,9 +29,9 @@
 #define SONAR_TRIG_CENTER 44
 #define SONAR_TRIG_RIGHT 42
 
-#define SONAR_ECHO_LEFT 0 //Analog Pins
-#define SONAR_ECHO_CENTER 1 //Analog Pins
-#define SONAR_ECHO_RIGHT 2 //Analog Pins
+#define SONAR_ECHO_LEFT A0 //Analog Pins
+#define SONAR_ECHO_CENTER A1 //Analog Pins
+#define SONAR_ECHO_RIGHT A2 //Analog Pins
 
 // encoders
 #define ENCODER_RIGHT_A 2 //Inturrupt
