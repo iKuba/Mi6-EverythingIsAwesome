@@ -22,9 +22,9 @@ void calibrate()
   while(r.getDistance(LEFT) != r.getDistance(RIGHT))
   {
      if(r.getDistance(LEFT)>r.getDistance(RIGHT))
-       r.rotate(.5);
+       r.rotate(1.0);
      else
-       r.rotate(-.5);
+       r.rotate(-1.0);
   }
   r.ndof.refresh();
   // for now we'll use center, since we don't know the offset of our ultrasonics
