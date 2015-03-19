@@ -14,6 +14,7 @@ public:
    * Constructor for the limit switch
    */
    LimitSwitch(int inputPin);
+   LimitSwitch(){};
 
   /**
    * Checking if the limit switch has been hit, returns true or false

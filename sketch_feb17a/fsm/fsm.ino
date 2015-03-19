@@ -15,11 +15,13 @@ void idle()
   // Wait for button push #define START_BUTTON 24
   // if(START_BUTTON == pressed)
   // turn robot on i.e exit this co ndition and proceed
+  // wait on spark io.
 }
 
 void calibrate()
 {
-  while(r.getDistance(LEFT) != r.getDistance(RIGHT))
+  // We only want cm accuracy
+  while((int)r.getDistance(LEFT) != (int)r.getDistance(RIGHT))
   {
      if(r.getDistance(LEFT)>r.getDistance(RIGHT))
        r.rotate(1.0);
@@ -27,23 +29,33 @@ void calibrate()
        r.rotate(-1.0);
   }
   r.ndof.refresh();
+
+  // This function will be called in multiple states; we must figure out a 
+  // way to decouple the r.nax.x setting such that we can fix x and y
+
   // for now we'll use center, since we don't know the offset of our ultrasonics
   r.nav.x = r.getDistance(CENTER);
   // just need this here for reasons while I wait on ndof heading code
-  r.nav.heading = 0;
+  r.nav.heading = r.ndof.heading();
 }
-
+/**
+* Lots of tuning required
+*/
 void goToRamp()
 {
   if(!r.haveLegoMan())
   {
     r.rotate(90.0);
     // This means we are on the platform
+    r.nav.heading = r.ndof.heading();
     while(r.ndof.gyro_.y == 0)
       r.setVelocity(.5);
-    // This means we are rolling down the ramp we should have a slow change in pitch
+    // This means we are rolling down the platform we should have a slow change in pitch
     while(r.ndof.gyro_.y != 0)
       r.setVelocity(.5);
+
+    // this really should be a call to calibrate BUT we need to get rid of
+    // the fixing the x in it.
     while(r.getDistance(LEFT) != r.getDistance(RIGHT))
     {
        if(r.getDistance(LEFT)>r.getDistance(RIGHT))
@@ -61,6 +73,11 @@ void goToRamp()
   }
 }
 
+// need to do velocity tuning for moving us into position
+// also need to figure out if we need the props down
+// we also need to do roll detection to turn off the prop if something fucks up
+// This state exits when we are at the peak and detect a pitch or we fuck up
+// The next state engaged will be the go down ramp
 void goUpRamp()
 {
   while (!r.guardDown(LEFT) || !r.guardDown(RIGHT))
@@ -75,6 +92,7 @@ void goUpRamp()
     }
   }
   r.ndof.refresh();
+  // need to determine threshholds on gyro
   while (r.ndof.gyro_.y > 10)
   {
     r.ndof.refresh();
@@ -92,14 +110,17 @@ void correctTraj()
   // no longer needed
 }
 
+// need to find gyro threshold
+// This state is disengaged once we are off the ramp.
+// We will either go home or find the lego man, pending whether we already
+// have the lego man
 void goDownRamp()
 {
   while(r.ndof.gyro_.y > -10)
-  {
-    r.setVelocity(.1);
-  }
+    r.setVelocity(.2);
 }
 
+// Jakub will work on search
 void search()
 { 
   int t = millis();
@@ -129,6 +150,10 @@ void search()
   }
 }
 
+// We need to figure out how we deal with this state
+// this will be the state that happens after we detect the lego man.
+// we might have a heading or somehting like that. I don't know yet.
+// This state is engaged once we have found the base of the lego man
 void goToLegoMan()
 {
   r.setVelocity(.3);
@@ -136,11 +161,17 @@ void goToLegoMan()
   // spin brush until we have the lego man
 }
 
+// We should be going across the platform here
+// This state is engaged once we have detected we are at the lego man's base
 void pickUp()
 {
   // pick up the lego man
 }
 
+// This probably needs tuning, we might be able to scan for it we might be 
+// able to hardcode it, hardcoding is probably the best option for now
+// because we have a lot of wiggle room to deal with it since the 
+// platform is huge
 void goHome()
 {
   int t = millis();
@@ -156,6 +187,7 @@ void goHome()
   }
 }
 
+// Literally chill.
 void chill()
 {
   // chill at base
@@ -181,8 +213,7 @@ FSM snr = FSM(Idle); // search and rescue state machine
 
 bool calculateNav = false;
 
-void doCalculations()
-{
+void doCalculations(){
   calculateNav = false;
 }
 
@@ -190,27 +221,30 @@ void doCalculations()
 
 void setup()
 {
-  Serial.begin (9600);
+  Serial.begin(9600);
   Wire.begin();
   MsTimer2::set(500, timerInterrupt);
-  attachInterrupt(2, killSwitch, CHANGE);
+  attachInterrupt(0, killSwitch, CHANGE);
   r = Robot();
   r.setup();
 
   // We setup all our sensors up in this bitch.
 }
 
+// need proper implementation
 void killSwitch()
 {
   
 }
 
-
+// not necessary anymore
 void timerInterrupt()
 {
   calculateNav = true;
 }
 
+
+// Need to write the transitions between states and shit
 void loop()
 {
   /**
@@ -234,7 +268,16 @@ void loop()
   //   doCalculations();
   // }
   // snr.update();
-  delay(1000);
-  Serial.println(r.ndof.heading());
+
+  // Serial.println(r.ndof.heading());
+  // for (int x = 0; x < 180; x ++)
+  // {
+  //   Serial.println("Going into rotate");
+  //   r.rotate(1.0);
+  //   Serial.println("Hai");
+  //   delay(10);
+  //   Serial.println(String((int) r.getDistance(LEFT)) + " " + String((int) r.getDistance(RIGHT)));
+  // }
+  r.setVelocity(.3);
 }
 

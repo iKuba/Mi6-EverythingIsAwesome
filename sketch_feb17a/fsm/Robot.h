@@ -60,7 +60,6 @@ private:
 	static Motor mLeft, mRight, mBrush;
 
 	float velocityLeft_, velocityRight_;
-	int propSpeed_;
 	bool brush_, legoMan_;
 
 	// end motors

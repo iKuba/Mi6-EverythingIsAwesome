@@ -15,6 +15,7 @@ public:
    */
   Motor(int forwardPin, int reversePin, int enablePin);
   Motor(int enablePin);
+  Motor(){};
 
   /**
   * speed is an unsigned integer, direction indicates 

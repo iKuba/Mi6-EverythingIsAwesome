@@ -14,6 +14,7 @@ public:
    * Constructor for the limit switch
    */
    Accelerometer(int inputPin);
+   Accelerometer(){};
   /*
    *  Returns position of the accelerometer
    */

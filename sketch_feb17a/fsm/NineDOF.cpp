@@ -53,12 +53,9 @@ void NineDOF::buildComp()
 
 void NineDOF::buildAccel()
 {
-  accel_.x = (((int) buffer_[3]) << 8) | buffer_[2];  // X axis (internal sensor y axis)
-  accel_.y = (((int) buffer_[1]) << 8) | buffer_[0];  // Y axis (internal sensor x axis)
-  accel_.z = (((int) buffer_[5]) << 8) | buffer_[4];  // Z axis (internal sensor z axis)
-  accel_.x = (accel_.x - ACCEL_X_OFFSET) * ACCEL_X_SCALE;
-  accel_.y = (accel_.y - ACCEL_Y_OFFSET) * ACCEL_Y_SCALE;
-  accel_.z = (accel_.z - ACCEL_Z_OFFSET) * ACCEL_Z_SCALE;
+  accel_.x = ((buffer_[1] <<8) | buffer_[0] - ACCEL_X_OFFSET) * ACCEL_X_SCALE/256.0*9.81;
+  accel_.y = ((buffer_[3] <<8) | buffer_[2] - ACCEL_Y_OFFSET) * ACCEL_Y_SCALE/256.0*9.81;
+  accel_.z = ((buffer_[5] <<8) | buffer_[4] - ACCEL_Z_OFFSET) * ACCEL_Z_SCALE/256.0*9.81;
 }
 
 float NineDOF::heading()

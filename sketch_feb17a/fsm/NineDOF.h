@@ -23,15 +23,15 @@
 #define MAGN_Y_MAX ((float) 779)
 #define MAGN_Z_MIN ((float) -651)
 #define MAGN_Z_MAX ((float) 790)
-#define GRAVITY 256.0f
+#define GRAVITY 1.0f
 
  // Sensor calibration scale and offset values
-#define ACCEL_X_OFFSET ((ACCEL_X_MIN + ACCEL_X_MAX) / 2.0f)
-#define ACCEL_Y_OFFSET ((ACCEL_Y_MIN + ACCEL_Y_MAX) / 2.0f)
-#define ACCEL_Z_OFFSET ((ACCEL_Z_MIN + ACCEL_Z_MAX) / 2.0f)
-#define ACCEL_X_SCALE (GRAVITY / (ACCEL_X_MAX - ACCEL_X_OFFSET))
-#define ACCEL_Y_SCALE (GRAVITY / (ACCEL_Y_MAX - ACCEL_Y_OFFSET))
-#define ACCEL_Z_SCALE (GRAVITY / (ACCEL_Z_MAX - ACCEL_Z_OFFSET))
+#define ACCEL_X_OFFSET 3
+#define ACCEL_Y_OFFSET 0
+#define ACCEL_Z_OFFSET 2
+#define ACCEL_X_SCALE (256.0f / (287 - 3))
+#define ACCEL_Y_SCALE (256.0f / (286 - .5))
+#define ACCEL_Z_SCALE  (256.0f / (277 - 4))
 
 #define MAGN_X_OFFSET ((MAGN_X_MIN + MAGN_X_MAX) / 2.0f)
 #define MAGN_Y_OFFSET ((MAGN_Y_MIN + MAGN_Y_MAX) / 2.0f)
@@ -50,7 +50,7 @@
 
 
 struct Raw{
-  int x,y,z,offx,offy,offz;
+  float x,y,z,offx,offy,offz;
 };
 
 class NineDOF : public I2C

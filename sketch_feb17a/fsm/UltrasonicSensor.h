@@ -14,6 +14,7 @@ public:
    * Constructor for the ultrasonic sensor
    */
   UltrasonicSensor(int triggerPin, int echoPin);
+  UltrasonicSensor(){};
 
   /**
    * Asking ultrasonic for distance returns a distance float in cm
