@@ -15,6 +15,10 @@ public:
    */
   Motor(int forwardPin, int reversePin, int enablePin);
   Motor(int enablePin);
+
+  /**
+  * speed is an unsigned integer, direction indicates 
+  */
   void setVelocity(unsigned int speed, bool direction);
   void setVelocity(unsigned int speed);
 
