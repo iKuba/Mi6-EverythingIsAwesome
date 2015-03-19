@@ -45,6 +45,10 @@ void goToRamp()
 {
   if(!r.haveLegoMan())
   {
+    // Chris - try to remove the nave by just rotating and finding the far wall
+    // then align with the ramp as we move forward.  The ramp will never change
+    // place
+    // also this needs a if lego man check to do it if we are on the other side of the wall.
     r.rotate(90.0);
     // This means we are on the platform
     r.nav.heading = r.ndof.heading();
@@ -103,6 +107,8 @@ void goUpRamp()
     r.drive();
   r.propOn(false);
   r.setVelocity(0);
+
+  //leaving by gyro sensor/acceleronmeter change
 }
 
 void correctTraj()
@@ -121,6 +127,7 @@ void goDownRamp()
 }
 
 // Jakub will work on search
+//debate between using a pre made model and scanning each time new
 void search()
 { 
   int t = millis();
@@ -159,6 +166,8 @@ void goToLegoMan()
   r.setVelocity(.3);
   r.setBrush(true);
   // spin brush until we have the lego man
+  //leave this state based on the gyro/acceleronmeter hitting the base
+  //this is a debatable state and would almost combine it with the "Pickup state"
 }
 
 // We should be going across the platform here
@@ -166,6 +175,7 @@ void goToLegoMan()
 void pickUp()
 {
   // pick up the lego man
+  //leave when limit switch is triggered
 }
 
 // This probably needs tuning, we might be able to scan for it we might be 
@@ -185,6 +195,8 @@ void goHome()
   {
     r.setVelocity(.3);
   }
+  //needs a lot of work, I could see this being the mirror of the search state
+  // as we've just gotten off the ramp and need to go toward a base
 }
 
 // Literally chill.
