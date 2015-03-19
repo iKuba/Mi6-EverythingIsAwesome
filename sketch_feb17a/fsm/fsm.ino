@@ -177,8 +177,8 @@ void loop()
   */
 
   //RUNNING MOTORS
-  mLeft.setVelocity(0, 0);
-  mRight.setVelocity(0, 1);
+  mLeft.setVelocity(0, 1);
+  mRight.setVelocity(255, 0);
   // analogWrite(MOTOR_BRUSH_SPEED, 255);
   //TESTING ENCODERS
   // Serial.print("Right Encoder: ");
