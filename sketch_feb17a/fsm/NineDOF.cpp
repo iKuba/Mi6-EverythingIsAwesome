@@ -63,6 +63,7 @@ void NineDOF::buildAccel()
 
 float NineDOF::heading()
 {
+  refresh();
   float heading = atan2(comp_.y, comp_.x);
 
   // Correct for when signs are reversed.
