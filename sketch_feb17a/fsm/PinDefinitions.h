@@ -25,13 +25,13 @@
 #define LIMIT_SWITCH_BACK 48
 
 // sonar
-#define SONAR_TRIG_RIGHT 46
-#define SONAR_TRIG_LEFT 44
-#define SONAR_TRIG_BACK 42
+#define SONAR_TRIG_LEFT 46
+#define SONAR_TRIG_BACK 44
+#define SONAR_TRIG_RIGHT 42
 
-#define SONAR_ECHO_RIGHT 0 //Analogue Pins
-#define SONAR_ECHO_LEFT 1 //Analogue Pins
-#define SONAR_ECHO_BACK 2 //Analogue Pins
+#define SONAR_ECHO_LEFT A0 //Analogue Pins
+#define SONAR_ECHO_BACK A1 //Analogue Pins
+#define SONAR_ECHO_RIGHT A2 //Analogue Pins
 
 // encoders
 #define ENCODER_RIGHT_A 2 //Inturrupt
@@ -44,14 +44,14 @@
 #define DOF9_SERIAL_SDA 20 //i2c sda pin //Also Kill Switch Interrupt
 
 //Accel Sensor
-#define ACCEL_LEFT_GUIDE 5 //Analog Pins
-#define ACCEL_RIGHT_GUIDE 6 //Analog Pins
+#define ACCEL_LEFT_GUIDE A5 //Analog Pins
+#define ACCEL_RIGHT_GUIDE A6 //Analog Pins
 
 // IR
-#define IR_SIGNAL 3 //Analog Pins
+#define IR_SIGNAL A3 //Analog Pins
 
 // Flex Lego Sensor
-#define FLEX_SENSOR 4 //Analog Pins
+#define FLEX_SENSOR A4 //Analog Pins
 
 #define KILL_SWITCH 20 //Inturrupt
 #define START_BUTTON 30 //Incase we need it
