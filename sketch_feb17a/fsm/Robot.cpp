@@ -3,7 +3,7 @@
  */
 #include "Robot.h"
 
- #define PWM(vel) 1000*vel+60.8
+ #define PWM(vel) (int) (1000*vel+60.8)
 
 UltrasonicSensor Robot::usRight = UltrasonicSensor(SONAR_TRIG_RIGHT,SONAR_ECHO_RIGHT);
 UltrasonicSensor Robot::usCenter = UltrasonicSensor(SONAR_TRIG_BACK,SONAR_ECHO_BACK);
@@ -61,7 +61,6 @@ void Robot::drive()
   mLeft.setVelocity(abs(velocityLeft_), velocityLeft_ >= 0);
   mRight.setVelocity(velocityRight_, velocityRight_ >= 0);
   mBrush.setVelocity(brush_?100:0);
-  prop_.writeMicroseconds(propSpeed_);
 }
 
 void Robot::setVelocity(float vel)
@@ -72,27 +71,37 @@ void Robot::setVelocity(float vel)
 
 void Robot::rotate(float angle)
 { 
-  setVelocity(0);
-  // now enter a loop which condition is to rotate left or right based on
-  // angle by setting motors to equal and oposite things
-  // this will cause us to turn in place
+  float heading = ndof.heading();
+
+  // going to need to test this to make sure we can do it
+  while (heading+angle != ndof.heading())
+  {
+    // want to rotate right
+    if(angle > 0)
+    {
+      mRight.setVelocity(PWM(.1), 0);
+      mLeft.setVelocity(PWM(.1)), 1;
+    }
+    else
+    {
+      mRight.setVelocity(PWM(.1), 1);
+      mLeft.setVelocity(PWM(.1)), 0;
+    }
+  }
+  mRight.setVelocity(0,1);
+  mLeft.setVelocity(0,1);
 }
 
 void Robot::propOn(bool on)
 {
   if (on)
   {
-    for(propSpeed_ = 0; propSpeed_ < 1000; propSpeed_++)
-    {
-      prop_.writeMicroseconds(propSpeed_);
-      // delaying 1 ms for now
-      delay(5);
-    }
+    prop_.write(90);
   }
   else
   {
-    propSpeed_ = 1000;
-    prop_.writeMicroseconds(propSpeed_);
+    propSpeed_ = 45;
+    prop_.write(propSpeed_);
   }
 }
 
