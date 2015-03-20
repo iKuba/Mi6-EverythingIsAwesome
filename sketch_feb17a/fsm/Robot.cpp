@@ -81,14 +81,15 @@ bool Robot::guardDown(POSITION pos)
 
 void Robot::drive()
 {
-  mLeft.setVelocity(velocityLeft_, 1);
-  mRight.setVelocity(velocityRight_, 1);
+  mLeft.setVelocity(255, 1);
+  mRight.setVelocity(255, 1);
   mBrush.setVelocity(255);//brush_?255:0);
 }
 
 void Robot::setVelocity(float vel)
 {
-  velocityLeft_ = velocityRight_ = PWM(vel);
+  velocityLeft_ = 
+  velocityRight_ = PWM(vel);
   drive();
 }
 
@@ -164,6 +165,11 @@ void Robot::setVelocity(float vel, POSITION pos)
     Serial.println("This is retarded don't tell me center");
   }
   drive();
+}
+
+void Robot::reverse(int speed) {
+  mRight.setVelocity(speed,0);
+  mLeft.setVelocity(speed,0); 
 }
 
 void Robot::setBrush(bool brush)

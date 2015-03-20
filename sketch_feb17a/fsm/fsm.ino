@@ -61,24 +61,41 @@ void calibrate()
 */
 void goToRamp()
 {
-  if(!r.haveLegoMan())
-  {
+  //Serial.println(r.haveLegoMan);
+  //if(!r.haveLegoMan())
+  //{
     // Chris - try to remove the nave by just rotating and finding the far wall
     // then align with the ramp as we move forward.  The ramp will never change
     // place
     // also this needs a if lego man check to do it if we are on the other side of the wall.
-    r.rotate(90.0);
-    // This means we are on the platform
-    while(r.getDistance(LEFT) > 10 && r.getDistance(RIGHT) > 10)
-      r.setVelocity(.5);
-    r.setVelocity(0);
-    r.rotate(-90.0);
-    while (r.ndof.gyro_.y < 10)
-      r.setVelocity(.5);
+    
+    while(r.getDistance(CENTER) > 15)
+    {
+
+      Serial.println(r.getDistance(CENTER));
+      r.reverse(140);
+    }
+    delay(100);
+    if(!r.haveLegoMan()){
+        r.rotate(-90);
+    }
+    else{
+      r.rotate(90);
+    }
+    delay(100);
+    // // This means we are on the platform
+    // while(r.getDistance(LEFT) > 10 && r.getDistance(RIGHT) > 10)
+    //   r.setVelocity(.5);
+    // r.setVelocity(0);
+    // r.rotate(-90.0);
+    while (r.ndof.gyro_.y < 15) {
+      r.setVelocity(.19);
+      r.ndof.refresh();      
+    }
 
     r.setVelocity(0);
     // drive forward until the ramp is engaged (we will again see a change in yaw)
-  }
+  //}
 }
 
 // need to do velocity tuning for moving us into position
@@ -287,10 +304,19 @@ void loop()
    
  //    while (true)
  //    {
- //      r.setVelocity(.0608);
+ //      r.setVelocity(.0608); 
  //    }
  // // }
  //   Serial.println(r.ndof.heading());
+    // goToRamp();
+    r.rotate(-90);
+// r.ndof.refresh();
+    // Serial.println(r.ndof.gyro_.y);
+    //  while (true)
+    // {
+    //   r.reverse(0);
+    // }
+ // r.setVelocity(0.02);
 
 }
 

@@ -19,7 +19,7 @@
 enum POSITION {CENTER, LEFT, RIGHT};
 
 struct space {
-  float x, y, z, heading;
+  double x, y, z, heading;
 };
 class Robot
 {
@@ -40,6 +40,7 @@ public:
   bool checkForLegoMan();
   bool guardDown(POSITION pos);
   void killEverything();
+  void reverse(int speed);
   space nav;
 
   static NineDOF ndof;
