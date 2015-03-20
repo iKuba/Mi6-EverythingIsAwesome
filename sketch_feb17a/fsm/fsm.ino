@@ -89,7 +89,7 @@ void goToRamp()
     // r.setVelocity(0);
     // r.rotate(-90.0);
     while (r.ndof.gyro_.y < 15) {
-      r.setVelocity(.19);
+      r.setVelocity(255);
       r.ndof.refresh();      
     }
 
@@ -109,11 +109,11 @@ void goUpRamp()
   {
     if (!r.guardDown(LEFT))
     {
-      r.setVelocity(.5, RIGHT);
+      r.setVelocity(120, RIGHT);
     }
     else
     {
-      r.setVelocity(.5, LEFT);
+      r.setVelocity(120, LEFT);
     }
   }
   r.ndof.refresh();
@@ -121,7 +121,7 @@ void goUpRamp()
   while (r.ndof.gyro_.y > 10)
   {
     r.ndof.refresh();
-    r.setVelocity(.5);
+    r.setVelocity(120);
   }
   r.propOn(true);
   while(r.ndof.gyro_.y < 10)
@@ -144,7 +144,7 @@ void correctTraj()
 void goDownRamp()
 {
   while(r.ndof.gyro_.y > -10)
-    r.setVelocity(.2);
+    r.setVelocity(255);
 }
 
 void search()
@@ -195,27 +195,6 @@ void search()
   // transition into go to ramp
 }
 
-// We need to figure out how we deal with this state
-// this will be the state that happens after we detect the lego man.
-// we might have a heading or somehting like that. I don't know yet.
-// This state is engaged once we have found the base of the lego man
-void goToLegoMan()
-{
-  r.setVelocity(.3);
-  r.setBrush(true);
-  // spin brush until we have the lego man
-  //leave this state based on the gyro/acceleronmeter hitting the base
-  //this is a debatable state and would almost combine it with the "Pickup state"
-}
-
-// We should be going across the platform here
-// This state is engaged once we have detected we are at the lego man's base
-void pickUp()
-{
-  // pick up the lego man
-  //leave when limit switch is triggered
-}
-
 // This probably needs tuning, we might be able to scan for it we might be 
 // able to hardcode it, hardcoding is probably the best option for now
 // because we have a lot of wiggle room to deal with it since the 
@@ -251,8 +230,6 @@ State GoUpRamp = State(goUpRamp);
 State CorrectTraj = State(correctTraj);
 State GoDownRamp = State(goDownRamp);
 State Search = State(search);
-State GoToLegoMan = State(goToLegoMan);
-State PickUp = State(pickUp);
 State GoHome = State(goHome);
 State Chill = State(chill);
 

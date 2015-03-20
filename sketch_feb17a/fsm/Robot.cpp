@@ -3,8 +3,6 @@
  */
 #include "Robot.h"
 
- #define PWM(vel) (int) (1000*vel-60.8)
-
 UltrasonicSensor Robot::usRight;
 UltrasonicSensor Robot::usCenter;
 UltrasonicSensor Robot::usLeft;
@@ -86,7 +84,7 @@ void Robot::drive()
 void Robot::setVelocity(float vel)
 {
   velocityLeft_ = 
-  velocityRight_ = PWM(vel);
+  velocityRight_ = vel;
   drive();
 }
 
@@ -151,11 +149,11 @@ void Robot::setVelocity(float vel, POSITION pos)
 {
   if (pos == LEFT)
   {
-    velocityLeft_ = PWM(vel);
+    velocityLeft_ = vel;
   }
   else if (pos == RIGHT)
   {
-    velocityRight_ = PWM(vel);
+    velocityRight_ = vel;
   }
   else
   {
