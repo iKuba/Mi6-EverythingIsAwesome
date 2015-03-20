@@ -22,7 +22,6 @@
 // limit switch input
 #define LIMIT_SWITCH_RIGHT 52
 #define LIMIT_SWITCH_LEFT 50
-#define LIMIT_SWITCH_BACK 48
 
 // sonar
 #define SONAR_TRIG_LEFT 46
@@ -44,8 +43,8 @@
 #define DOF9_SERIAL_SDA 20 //i2c sda pin //Also Kill Switch Interrupt
 
 //Accel Sensor
-#define ACCEL_LEFT_GUIDE A5 //Analog Pins
-#define ACCEL_RIGHT_GUIDE A6 //Analog Pins
+#define ACCEL_LEFT_GUIDE A13 //Analog Pins
+#define ACCEL_RIGHT_GUIDE A12 //Analog Pins
 
 // IR
 #define IR_SIGNAL A3 //Analog Pins

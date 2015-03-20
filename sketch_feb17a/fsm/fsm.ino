@@ -21,13 +21,30 @@ void idle()
 void calibrate()
 {
   // We only want cm accuracy
-  while((int)r.getDistance(LEFT) != (int)r.getDistance(RIGHT))
+  float lDist = 0;
+  float rDist = 99;
+
+  while(abs(lDist - rDist) > .5)
   {
-     if(r.getDistance(LEFT)>r.getDistance(RIGHT))
-       r.rotate(1.0);
+    lDist = r.getDistance(LEFT);
+    delay(200);
+    rDist = r.getDistance(RIGHT);
+    if(lDist == -1 || rDist == -1)
+      continue;
+    Serial.println(abs(lDist - rDist));
+     if(lDist>rDist)
+     {  
+      r.rotate(1.0);
+     }
      else
+     {
        r.rotate(-1.0);
+     }
+    Serial.println(lDist);
+    Serial.println(rDist);
   }
+  Serial.println(lDist);
+    Serial.println(rDist);
   r.ndof.refresh();
 
   // This function will be called in multiple states; we must figure out a 
@@ -37,6 +54,7 @@ void calibrate()
   r.nav.x = r.getDistance(CENTER);
   // just need this here for reasons while I wait on ndof heading code
   r.nav.heading = r.ndof.heading();
+  Serial.println("Done calibrating");
 }
 /**
 * Lots of tuning required
@@ -51,28 +69,14 @@ void goToRamp()
     // also this needs a if lego man check to do it if we are on the other side of the wall.
     r.rotate(90.0);
     // This means we are on the platform
-    r.nav.heading = r.ndof.heading();
-    while(r.ndof.gyro_.y == 0)
+    while(r.getDistance(LEFT) > 10 && r.getDistance(RIGHT) > 10)
       r.setVelocity(.5);
-    // This means we are rolling down the platform we should have a slow change in pitch
-    while(r.ndof.gyro_.y != 0)
+    r.setVelocity(0);
+    r.rotate(-90.0);
+    while (r.ndof.gyro_.y < 10)
       r.setVelocity(.5);
 
-    // this really should be a call to calibrate BUT we need to get rid of
-    // the fixing the x in it.
-    while(r.getDistance(LEFT) != r.getDistance(RIGHT))
-    {
-       if(r.getDistance(LEFT)>r.getDistance(RIGHT))
-         r.rotate(.5);
-       else
-         r.rotate(-.5);
-    }
-    r.nav.y = r.getDistance(CENTER) + 150;
-    while(r.getDistance(CENTER) > 5);
-      r.setVelocity(.5);
-    r.rotate(-90.0);
-    while(r.ndof.gyro_.y == 0)
-      r.setVelocity(.5);
+    r.setVelocity(0);
     // drive forward until the ramp is engaged (we will again see a change in yaw)
   }
 }
@@ -130,6 +134,20 @@ void goDownRamp()
 //debate between using a pre made model and scanning each time new
 void search()
 { 
+  // this is the thing to search for lego man
+ //   float lDist = 0;
+ //   float rDist = 99;
+ //   while( x < 4)
+ //   {
+ //   lDist = r.getDistance(LEFT);
+ //   delay(200);
+ //   rDist = r.getDistance(RIGHT);
+ //   r.setVelocity(-.3);
+ //   if ((lDist + rDist)/2 < 160)
+ //   {
+ //    x++;
+ //   }
+ //   }
   int t = millis();
   int dPrevL, dPrevR;
   // We first move 10 cm from the ramp.
@@ -221,21 +239,10 @@ State Chill = State(chill);
 FSM snr = FSM(Idle); // search and rescue state machine
 // End states
 
-// Begin calculations
-
-bool calculateNav = false;
-
-void doCalculations(){
-  calculateNav = false;
-}
-
-// End Calculations
-
 void setup()
 {
   Serial.begin(9600);
   Wire.begin();
-  MsTimer2::set(500, timerInterrupt);
   attachInterrupt(0, killSwitch, CHANGE);
   r = Robot();
   r.setup();
@@ -246,15 +253,9 @@ void setup()
 // need proper implementation
 void killSwitch()
 {
-  
+  r.killEverything();
 }
-
-// not necessary anymore
-void timerInterrupt()
-{
-  calculateNav = true;
-}
-
+int x = 0;
 
 // Need to write the transitions between states and shit
 void loop()
@@ -280,16 +281,16 @@ void loop()
   //   doCalculations();
   // }
   // snr.update();
+  // //r.rotate(90);
+   // calibrate();
+ //     r.rotate(90);
+   
+ //    while (true)
+ //    {
+ //      r.setVelocity(.0608);
+ //    }
+ // // }
+ //   Serial.println(r.ndof.heading());
 
-  // Serial.println(r.ndof.heading());
-  // for (int x = 0; x < 180; x ++)
-  // {
-  //   Serial.println("Going into rotate");
-  //   r.rotate(1.0);
-  //   Serial.println("Hai");
-  //   delay(10);
-  //   Serial.println(String((int) r.getDistance(LEFT)) + " " + String((int) r.getDistance(RIGHT)));
-  // }
-  r.setVelocity(.3);
 }
 

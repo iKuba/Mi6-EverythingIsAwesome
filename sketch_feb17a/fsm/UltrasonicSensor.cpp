@@ -13,12 +13,12 @@ UltrasonicSensor::UltrasonicSensor(int triggerPin, int echoPin) :
 
 float UltrasonicSensor::query()
 {
-  int duration, distance;
+  float duration, distance;
   digitalWrite(trigger_pin_, HIGH);
   delayMicroseconds(1000);
   digitalWrite(trigger_pin_, LOW);
   duration = pulseIn(echo_pin_, HIGH);
-  distance = (duration/2) / 29.1;
+  distance = (duration/2.0) / 29.1;
   if (distance >= 400 || distance <= 0)
   {
     return -1.0;

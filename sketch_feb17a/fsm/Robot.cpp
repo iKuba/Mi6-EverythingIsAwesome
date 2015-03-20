@@ -3,14 +3,13 @@
  */
 #include "Robot.h"
 
- #define PWM(vel) (int) (1000*vel+60.8)
+ #define PWM(vel) (int) (1000*vel-60.8)
 
 UltrasonicSensor Robot::usRight;
 UltrasonicSensor Robot::usCenter;
 UltrasonicSensor Robot::usLeft;
 
 LimitSwitch Robot::lsRight;
-LimitSwitch Robot::lsCenter;
 LimitSwitch Robot::lsLeft;
 NineDOF Robot::ndof;
 
@@ -32,7 +31,6 @@ void Robot::setup()
   usLeft = UltrasonicSensor(SONAR_TRIG_LEFT,SONAR_ECHO_LEFT);
 
   lsRight = LimitSwitch(LIMIT_SWITCH_RIGHT);
-  lsCenter = LimitSwitch(LIMIT_SWITCH_BACK);
   lsLeft = LimitSwitch(LIMIT_SWITCH_LEFT);
   mBrush = Motor(MOTOR_BRUSH_SPEED);
   mLeft = Motor(MOTOR_LEFT_DIR_A, MOTOR_LEFT_DIR_B, MOTOR_LEFT_SPEED);
@@ -46,24 +44,33 @@ void Robot::setup()
   ndof.setup();
 }
 
+void Robot::killEverything()
+{
+  propOn(false);
+  setVelocity(0);
+}
+
 bool Robot::haveLegoMan(){
   return legoMan_;
 }
 
 bool Robot::checkForLegoMan()
 {
-  // check things if we have lego man set legoMan_
+  Serial.println("Left switch " + String(lsLeft.query()));
+  Serial.println("Right switch " + String(lsRight.query()));
 }
 
 bool Robot::guardDown(POSITION pos)
 {
   if (pos == LEFT)
   {
-    return accLeft.getPosition() > 0;
+    Serial.println("Left: " + String(accLeft.getPosition()));
+    return accLeft.getPosition() < 1;
   }
   else if (pos == RIGHT)
   {
-    return accRight.getPosition() > 0;
+    Serial.println("Right " + String(accRight.getPosition()));
+    return accRight.getPosition() < 1;
   }
   else
   {
@@ -74,9 +81,9 @@ bool Robot::guardDown(POSITION pos)
 
 void Robot::drive()
 {
-  mLeft.setVelocity(abs(velocityLeft_), velocityLeft_ >= 0);
-  mRight.setVelocity(abs(velocityRight_), velocityRight_ >= 0);
-  mBrush.setVelocity(brush_?100:0);
+  mLeft.setVelocity(velocityLeft_, 1);
+  mRight.setVelocity(velocityRight_, 1);
+  mBrush.setVelocity(255);//brush_?255:0);
 }
 
 void Robot::setVelocity(float vel)
@@ -87,16 +94,47 @@ void Robot::setVelocity(float vel)
 
 void Robot::rotate(float angle)
 { 
-  float heading = ndof.heading();
-
-  // going to need to test this to make sure we can do it
-  while (heading+angle > ndof.heading())
+  float prevHeading = ndof.heading();
+  float desiredHeading = prevHeading - angle;
+  if (desiredHeading > 360)
   {
-    mRight.setVelocity(PWM(.1), (angle > 0)?0:1);
-    mLeft.setVelocity(PWM(.1), (angle > 0)?1:0);
+    desiredHeading-=360;
+    while(!(prevHeading+1 > desiredHeading && ndof.heading()-1 < desiredHeading))
+    {
+      mRight.setVelocity(255, 0);
+      mLeft.setVelocity(255, 1);
+      prevHeading = ndof.heading();
+    }
   }
-  mRight.setVelocity(0,1);
-  mLeft.setVelocity(0,1);
+  else if (desiredHeading < 0)
+  {
+    desiredHeading+=360;
+    while(!(prevHeading-1 < desiredHeading && ndof.heading()+1 > desiredHeading))
+    {
+      mRight.setVelocity(255, 1);
+      mLeft.setVelocity(255, 0);
+      prevHeading = ndof.heading();
+    }
+  }
+  else if (angle < 0)
+  {
+    while(!(prevHeading-1 < desiredHeading && ndof.heading()+1 > desiredHeading))
+    {
+      mRight.setVelocity(255, 1);
+      mLeft.setVelocity(255, 0);                      
+      prevHeading = ndof.heading();
+    }
+  }
+  else
+  {
+    while(!(prevHeading+1 > desiredHeading && ndof.heading()-1 < desiredHeading))
+    {
+      mRight.setVelocity(255, 0);
+      mLeft.setVelocity(255, 1);
+      prevHeading = ndof.heading();
+    }
+  }
+  Serial.println(ndof.heading());
 }
 
 void Robot::propOn(bool on)

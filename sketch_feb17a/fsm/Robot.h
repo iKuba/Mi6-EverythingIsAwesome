@@ -39,6 +39,7 @@ public:
   bool haveLegoMan();
   bool checkForLegoMan();
   bool guardDown(POSITION pos);
+  void killEverything();
   space nav;
 
   static NineDOF ndof;
