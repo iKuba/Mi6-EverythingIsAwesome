@@ -147,49 +147,52 @@ void goDownRamp()
     r.setVelocity(.2);
 }
 
-// Jakub will work on search
-//debate between using a pre made model and scanning each time new
 void search()
 { 
   // this is the thing to search for lego man
- //   float lDist = 0;
- //   float rDist = 99;
- //   while( x < 4)
- //   {
- //   lDist = r.getDistance(LEFT);
- //   delay(200);
- //   rDist = r.getDistance(RIGHT);
- //   r.setVelocity(-.3);
- //   if ((lDist + rDist)/2 < 160)
- //   {
- //    x++;
- //   }
- //   }
-  int t = millis();
-  int dPrevL, dPrevR;
-  // We first move 10 cm from the ramp.
-  while (millis() < t + 1000)
-    r.setVelocity(.1);
-  
-  dPrevL = r.getDistance(LEFT);
-  dPrevR = r.getDistance(RIGHT);
-  for (int x = 1; x < 180; x++)
+  int x = 0;
+  float lDist = 0;
+  float rDist = 0;
+
+  lDist = r.getDistance(LEFT);
+  delay(200);
+  rDist = r.getDistance(RIGHT);
+  while((lDist + rDist)/2 < 160)
   {
-    r.rotate(-1);
-    if (abs(r.getDistance(LEFT) - dPrevL) > 20)
-    {
-      while(abs(r.getDistance(RIGHT) - dPrevR) < 20)
-        r.rotate(-1);
-      // now drive, maybe?
-    }
-    if (abs(r.getDistance(RIGHT) - dPrevR) > 20)
-    {
-      // rotate back to try and find the base with the other ultra sonic,
-      // rotate half way back. DRIVE
-    }
-    dPrevL = r.getDistance(LEFT);
-    dPrevR = r.getDistance(RIGHT);
+    lDist = r.getDistance(LEFT);
+    delay(200);
+    rDist = r.getDistance(RIGHT);
+    r.setVelocity(-.3);
   }
+  while((lDist + rDist)/2 > 160)
+  {
+    lDist = r.getDistance(LEFT);
+    delay(200);
+    rDist = r.getDistance(RIGHT);
+    r.setVelocity(-.3);
+  }
+  r.rotate(90);
+  r.setBrush(true);
+  // a bit of a conservative guess but yeah...
+  while(x > 4)
+  {
+    lDist = r.getDistance(LEFT);
+    delay(200);
+    rDist = r.getDistance(RIGHT);
+    r.setVelocity(-.3);
+    if ((lDist + rDist)/2 < 20)
+    {
+      x++;
+    }
+  }
+  r.rotate(90);
+  // gonna need to find out a good value for this
+  while(r.getDistance(CENTER) < 250 || !r.checkForLegoMan())
+  {
+    r.drive();
+  }
+  r.rotate(-90);
+  // transition into go to ramp
 }
 
 // We need to figure out how we deal with this state
@@ -272,7 +275,6 @@ void killSwitch()
 {
   r.killEverything();
 }
-int x = 0;
 
 // Need to write the transitions between states and shit
 void loop()

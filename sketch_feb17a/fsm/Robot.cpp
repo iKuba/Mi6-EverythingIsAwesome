@@ -56,20 +56,17 @@ bool Robot::haveLegoMan(){
 
 bool Robot::checkForLegoMan()
 {
-  Serial.println("Left switch " + String(lsLeft.query()));
-  Serial.println("Right switch " + String(lsRight.query()));
+  return (lsLeft.query() || lsRight.query());
 }
 
 bool Robot::guardDown(POSITION pos)
 {
   if (pos == LEFT)
   {
-    Serial.println("Left: " + String(accLeft.getPosition()));
     return accLeft.getPosition() < 1;
   }
   else if (pos == RIGHT)
   {
-    Serial.println("Right " + String(accRight.getPosition()));
     return accRight.getPosition() < 1;
   }
   else
