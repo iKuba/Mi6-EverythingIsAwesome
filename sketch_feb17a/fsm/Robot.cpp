@@ -92,14 +92,15 @@ void Robot::rotate(float angle)
 { 
   float prevHeading = ndof.heading();
   float desiredHeading = prevHeading - angle;
+  Serial.println("Desired heading");
+  Serial.println(desiredHeading);
   if (desiredHeading > 360)
   {
     desiredHeading-=360;
     while(!(prevHeading+1 > desiredHeading && ndof.heading()-1 < desiredHeading))
     {
-      mRight.setVelocity(255, 0);
-      mLeft.setVelocity(255, 1);
       prevHeading = ndof.heading();
+      Serial.println(prevHeading);
     }
   }
   else if (desiredHeading < 0)
@@ -107,27 +108,24 @@ void Robot::rotate(float angle)
     desiredHeading+=360;
     while(!(prevHeading-1 < desiredHeading && ndof.heading()+1 > desiredHeading))
     {
-      mRight.setVelocity(255, 1);
-      mLeft.setVelocity(255, 0);
       prevHeading = ndof.heading();
+      Serial.println(prevHeading);
     }
   }
   else if (angle < 0)
   {
     while(!(prevHeading-1 < desiredHeading && ndof.heading()+1 > desiredHeading))
-    {
-      mRight.setVelocity(255, 1);
-      mLeft.setVelocity(255, 0);                      
+    {                 
       prevHeading = ndof.heading();
+      Serial.println(prevHeading);
     }
   }
   else
   {
     while(!(prevHeading+1 > desiredHeading && ndof.heading()-1 < desiredHeading))
     {
-      mRight.setVelocity(255, 0);
-      mLeft.setVelocity(255, 1);
       prevHeading = ndof.heading();
+      Serial.println(prevHeading);
     }
   }
   Serial.println(ndof.heading());

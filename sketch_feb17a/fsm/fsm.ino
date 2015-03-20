@@ -76,19 +76,16 @@ void goToRamp()
       r.reverse(140);
     }
     delay(100);
-    if(!r.haveLegoMan()){
-        r.rotate(-90.0);
-    }
-    else{
-      r.rotate(90.0);
-    }
+    r.rotate(-90.0);
     delay(100);
     // // This means we are on the platform
     // while(r.getDistance(LEFT) > 10 && r.getDistance(RIGHT) > 10)
     //   r.setVelocity(.5);
     // r.setVelocity(0);
     // r.rotate(-90.0);
-    while (r.ndof.gyro_.y < 15) {
+
+    r.ndof.refresh();     
+    while (r.ndof.accel_.x > -1.5) {
       r.setVelocity(255);
       r.ndof.refresh();      
     }
@@ -169,10 +166,17 @@ void search()
     rDist = r.getDistance(RIGHT);
   }
   r.reverse(0);
-  delay(200);
-  t = millis();
-
-  r.drive();
+  r.rotate(90);
+  while(!r.checkForLegoMan())
+    r.drive();
+  while (r.getDistance(CENTER) > 10)
+    r.reverse(255);
+  r.reverse(0);
+  r.rotate(-90);
+  while (true)
+  {
+    r.drive();
+  }
   // while((lDist + rDist)/2 > 160)
   // {
   //   lDist = r.getDistance(LEFT);
@@ -212,19 +216,32 @@ void search()
 // platform is huge
 void goHome()
 {
-  int t = millis();
-  while (millis() < t + 1000)
+ // this is the thing to search for lego man
+  int x = 0, t = 0;
+  float lDist = 0;
+  float rDist = 0;
+
+  lDist = r.getDistance(LEFT);
+  delay(200);
+  rDist = r.getDistance(RIGHT);
+  r.rotate(-90);
+  while(x < 6)
   {
-    r.setVelocity(.1);
+    r.drive();
+    if ((lDist + rDist)/2 < 150)
+    {
+      x++;
+    }
+    lDist = r.getDistance(LEFT);
+    delay(200);
+    rDist = r.getDistance(RIGHT);
   }
-  r.rotate(90.0);
-  t = millis();
-  while (millis() < t + 1000)
+  r.reverse(0);
+  r.rotate(90);
+  while (true)
   {
-    r.setVelocity(.3);
-  }
-  //needs a lot of work, I could see this being the mirror of the search state
-  // as we've just gotten off the ramp and need to go toward a base
+    r.drive();
+  } 
 }
 
 // Literally chill.
