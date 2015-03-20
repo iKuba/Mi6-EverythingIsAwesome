@@ -77,10 +77,10 @@ void goToRamp()
     }
     delay(100);
     if(!r.haveLegoMan()){
-        r.rotate(-90);
+        r.rotate(-90.0);
     }
     else{
-      r.rotate(90);
+      r.rotate(90.0);
     }
     delay(100);
     // // This means we are on the platform
@@ -150,48 +150,59 @@ void goDownRamp()
 void search()
 { 
   // this is the thing to search for lego man
-  int x = 0;
+  int x = 0, t = 0;
   float lDist = 0;
   float rDist = 0;
 
   lDist = r.getDistance(LEFT);
   delay(200);
   rDist = r.getDistance(RIGHT);
-  while((lDist + rDist)/2 < 160)
+  while(x < 4)
   {
-    lDist = r.getDistance(LEFT);
-    delay(200);
-    rDist = r.getDistance(RIGHT);
-    r.setVelocity(-.3);
-  }
-  while((lDist + rDist)/2 > 160)
-  {
-    lDist = r.getDistance(LEFT);
-    delay(200);
-    rDist = r.getDistance(RIGHT);
-    r.setVelocity(-.3);
-  }
-  r.rotate(90);
-  r.setBrush(true);
-  // a bit of a conservative guess but yeah...
-  while(x > 4)
-  {
-    lDist = r.getDistance(LEFT);
-    delay(200);
-    rDist = r.getDistance(RIGHT);
-    r.setVelocity(-.3);
-    if ((lDist + rDist)/2 < 20)
+    r.drive();
+    if ((lDist + rDist)/2 < 150)
     {
       x++;
     }
+    lDist = r.getDistance(LEFT);
+    delay(200);
+    rDist = r.getDistance(RIGHT);
   }
-  r.rotate(90);
-  // gonna need to find out a good value for this
-  while(r.getDistance(CENTER) < 250 || !r.checkForLegoMan())
-  {
-    r.drive();
-  }
-  r.rotate(-90);
+  r.reverse(0);
+  delay(200);
+  t = millis();
+
+  r.drive();
+  // while((lDist + rDist)/2 > 160)
+  // {
+  //   lDist = r.getDistance(LEFT);
+  //   delay(200);
+  //   rDist = r.getDistance(RIGHT);
+  //   Serial.println(lDist);
+  //   Serial.println(rDist);
+  //   drive();
+  // }
+  // r.rotate(45);
+  // r.setBrush(true);
+  // // a bit of a conservative guess but yeah...
+  // while(x < 4)
+  // {
+  //   lDist = r.getDistance(LEFT);
+  //   delay(200);
+  //   rDist = r.getDistance(RIGHT);
+  //   drive();
+  //   if ((lDist + rDist)/2 < 20)
+  //   {
+  //     x++;
+  //   }
+  // }
+  // r.rotate(90);
+  // // gonna need to find out a good value for this
+  // while(r.getDistance(CENTER) < 250 || !r.checkForLegoMan())
+  // {
+  //   r.drive();
+  // }
+  // r.rotate(-90);
   // transition into go to ramp
 }
 
@@ -206,7 +217,7 @@ void goHome()
   {
     r.setVelocity(.1);
   }
-  r.rotate(90);
+  r.rotate(90.0);
   t = millis();
   while (millis() < t + 1000)
   {
@@ -256,46 +267,13 @@ void killSwitch()
 // Need to write the transitions between states and shit
 void loop()
 {
-  /**
-  * In this block we will transition from one state to another
-  * For example we can switch from the start state to the calibrate state like so
-  * snr.transitionTo(calibrate); 
-  * then we update the state machine so it properly transitions
-  * 
-  */
-  //Serial.println(s2.query());
-  // if (START)
-  // {
-  //   snr.transitionTo(Calibrate);
-  // }
-  // else if(r.getDistance(LEFT) != r.getDistance(RIGHT))
-  // {
-  //   snr.transitionTo(GoToRamp);
-  // }
-  // if(calculateNav)
-  // {
-  //   doCalculations();
-  // }
-  // snr.update();
-  // //r.rotate(90);
-   // calibrate();
- //     r.rotate(90);
-   
- //    while (true)
- //    {
- //      r.setVelocity(.0608); 
- //    }
- // // }
- //   Serial.println(r.ndof.heading());
-    // goToRamp();
-    r.rotate(-90);
-// r.ndof.refresh();
-    // Serial.println(r.ndof.gyro_.y);
-    //  while (true)
-    // {
-    //   r.reverse(0);
-    // }
- // r.setVelocity(0.02);
+  search();
+  while(true){
+    r.reverse(0);
+  }
+  // Serial.println((int) r.getDistance(LEFT));
+  // delay(200);
 
+  // Serial.println((int) r.getDistance(RIGHT));
 }
 
