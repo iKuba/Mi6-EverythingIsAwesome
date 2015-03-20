@@ -200,13 +200,13 @@ void loop()
     else
       motorSpeed = val;
   }
-  mLeft.setVelocity(255, 0);
-    mRight.setVelocity(255, 0);
+  mLeft.setVelocity(200, 0);
+  mRight.setVelocity(255, 1);
 
   if (runMotors)
   {
-    mLeft.setVelocity(motorSpeed, 0);
-    mRight.setVelocity(motorSpeed, 0);
+    mLeft.setVelocity((motorSpeed-55 < 0)?0:(motorSpeed-55), 0);
+    mRight.setVelocity(motorSpeed, 1);
   }
   else
   {

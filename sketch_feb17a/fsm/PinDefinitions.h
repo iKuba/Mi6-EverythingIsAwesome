@@ -17,7 +17,7 @@
 // brush
 #define MOTOR_BRUSH_SPEED 10
 // prop
-#define PROP_ESC_SPEED 11
+#define PROP_ESC_SPEED 12
 
 // limit switch input
 #define LIMIT_SWITCH_LEFT 52
