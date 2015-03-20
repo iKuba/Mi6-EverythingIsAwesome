@@ -71,10 +71,10 @@ void goToRamp()
     
     while(r.getDistance(CENTER) > 15)
     {
-
       Serial.println(r.getDistance(CENTER));
-      r.reverse(140);
+      r.reverse(255);
     }
+    r.reverse(0);
     delay(100);
     r.rotate(-90.0);
     delay(100);
@@ -85,7 +85,7 @@ void goToRamp()
     // r.rotate(-90.0);
 
     r.ndof.refresh();     
-    while (r.ndof.accel_.x > -1.5) {
+    while (r.ndof.accel_.x > 0) {
       r.setVelocity(255);
       r.ndof.refresh();      
     }
@@ -224,24 +224,22 @@ void goHome()
   lDist = r.getDistance(LEFT);
   delay(200);
   rDist = r.getDistance(RIGHT);
-  r.rotate(-90);
+  r.rotate(270.0);
   while(x < 6)
   {
     r.drive();
+    lDist = r.getDistance(LEFT);
+    delay(200);
+    rDist = r.getDistance(RIGHT);
     if ((lDist + rDist)/2 < 150)
     {
       x++;
     }
-    lDist = r.getDistance(LEFT);
-    delay(200);
-    rDist = r.getDistance(RIGHT);
   }
   r.reverse(0);
   r.rotate(90);
-  while (true)
-  {
-    r.drive();
-  } 
+  r.drive();
+  Serial.println("hello");
 }
 
 // Literally chill.
@@ -284,7 +282,7 @@ void killSwitch()
 // Need to write the transitions between states and shit
 void loop()
 {
-  search();
+  goHome();
   while(true){
     r.reverse(0);
   }

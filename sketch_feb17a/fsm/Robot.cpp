@@ -100,7 +100,6 @@ void Robot::rotate(float angle)
     while(!(prevHeading+1 > desiredHeading && ndof.heading()-1 < desiredHeading))
     {
       prevHeading = ndof.heading();
-      Serial.println(prevHeading);
     }
   }
   else if (desiredHeading < 0)
@@ -109,7 +108,6 @@ void Robot::rotate(float angle)
     while(!(prevHeading-1 < desiredHeading && ndof.heading()+1 > desiredHeading))
     {
       prevHeading = ndof.heading();
-      Serial.println(prevHeading);
     }
   }
   else if (angle < 0)
@@ -117,7 +115,6 @@ void Robot::rotate(float angle)
     while(!(prevHeading-1 < desiredHeading && ndof.heading()+1 > desiredHeading))
     {                 
       prevHeading = ndof.heading();
-      Serial.println(prevHeading);
     }
   }
   else
@@ -125,7 +122,6 @@ void Robot::rotate(float angle)
     while(!(prevHeading+1 > desiredHeading && ndof.heading()-1 < desiredHeading))
     {
       prevHeading = ndof.heading();
-      Serial.println(prevHeading);
     }
   }
   Serial.println(ndof.heading());
